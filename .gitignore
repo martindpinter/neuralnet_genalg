@@ -4,4 +4,8 @@
 *.suo
 *.sln.cache
 *.opensdf
+*.obj
+*.exe
+Debug/
+HAMK_Thesis/Debug/
 Thumbs.db
