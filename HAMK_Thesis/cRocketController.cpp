@@ -40,6 +40,7 @@ void cRocketController::draw(sf::RenderWindow& window) {
 	rocketSprite.setOrigin(19, 27);
 
 	window.draw(rocketSprite);
+	cRocketHUD HUD(window, *this);
 }
 
 void cRocketController::update(float frametime) {
@@ -50,6 +51,8 @@ void cRocketController::update(float frametime) {
 
 	angular_velocity += angular_acceleration * frametime;
 	angle += angular_velocity * frametime;
+	
+	angle = fmod(angle, 360.0f);	//rad?
 
 	sf::Vector2f acceleration(cos(angle), sin(angle));
 	acceleration *= throttle * cParams::EnginePower;	//ha a throttle 0, 0vektorra zsugorul
@@ -64,7 +67,7 @@ void cRocketController::accelerate(float amount) {
 }
 
 void cRocketController::angular_accelerate(float alpha_amount) {
-	angular_throttle += alpha_amount;
+	angular_throttle = alpha_amount;	// Originally += 
 	angular_throttle = clamp(angular_throttle, -1.0, 1.0);
 }
 /*

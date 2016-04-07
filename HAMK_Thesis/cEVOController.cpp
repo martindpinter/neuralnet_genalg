@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <ctime>
 
+#include "Utilities.h"
+
 #include "cRocketNN.h"
 #include "cRocketRND.h"
 
@@ -24,7 +26,7 @@ bool cEVOController::OutOfBounds(cRocketController * Interceptor, cRocketControl
 	
 }
 
-float cEVOController::CalculateDistance(cRocketController * OneRocket, cRocketController * OtherRocket) {
+float cEVOController::CalculateDistance(cRocketController * OneRocket, cRocketController * OtherRocket) {	// consider changing to points (position vectors) as parameters
 	return (sqrt(pow((OtherRocket->position.x - OneRocket->position.x), 2) + pow((OtherRocket->position.y - OneRocket->position.y), 2)));
 
 }
@@ -45,7 +47,7 @@ void cEVOController::run(sf::RenderWindow& window, float frametime) {
 			
 			cRocketNN Interceptor(cParams::posRocketNN, cParams::velRocketNN, cParams::angleRocketNN);
 			cRocketRND EnemyRocket(cParams::posRocketOPP, cParams::velRocketOPP, cParams::angleRocketOPP);
-
+			
 			TheNet.feedWeights(onePopulation.Population[j].value); // feeds weights to the neurons
 
 			onePopulation.Population[j].fitness = simulate(&Interceptor, &EnemyRocket, &TheNet, frametime, window);
@@ -61,7 +63,7 @@ float cEVOController::simulate(cRocketNN * Interceptor, cRocketRND * EnemyRocket
 
 	Interceptor->DefineTarget(EnemyRocket);
 	sf::Clock SimulationClock;
-
+	
 	// for each frame
 
 	bool CollisionDetection = false;
@@ -73,8 +75,9 @@ float cEVOController::simulate(cRocketNN * Interceptor, cRocketRND * EnemyRocket
 		Interceptor->update(frametime);
 		EnemyRocket->update(frametime);
 
-		std::cout << "Interceptor ::  X [" << Interceptor->position.x << "]   Y [" << Interceptor->position.y << "]" << std::endl;
-
+		//std::cout << "Interceptor ::  X [" << Interceptor->position.x << "]   Y [" << Interceptor->position.y << "]" << std::endl;
+		//std::cout << "Interceptor's Angle [" << rad2deg(Interceptor->angle) << "] " << std::endl;
+		
 		
 		CollisionDetection = Interceptor->collision(EnemyRocket);
 		float CurrentDistance = CalculateDistance(Interceptor, EnemyRocket);
@@ -88,12 +91,16 @@ float cEVOController::simulate(cRocketNN * Interceptor, cRocketRND * EnemyRocket
 			Interceptor->draw(window);
 			EnemyRocket->draw(window);
 			window.display();
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
+				return 0;
+			}
 		}
 
 	}
 
 	float SimulationTime = SimulationClock.restart().asSeconds();
 
-	return (CollisionDetection * SimulationTime + !CollisionDetection * ClosestDistance) / SimulationTime;
+	return (CollisionDetection * SimulationTime + !CollisionDetection * ClosestDistance) / (SimulationTime + (!CollisionDetection * 100));
 
 }

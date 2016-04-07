@@ -45,6 +45,9 @@
     <ClCompile Include="cPopulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cRocketHUD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cNeuralNet.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cPopulation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cRocketHUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

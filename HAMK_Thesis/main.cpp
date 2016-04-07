@@ -23,8 +23,9 @@ int main() {
 	sf::Clock frameclock;
 
 	sf::RenderWindow window(sf::VideoMode(cParams::WindowWidth, cParams::WindowHeight), "Martin Pinter - HAMK Thesis");
+	
 	window.setFramerateLimit(cParams::Framerate);
-
+	
 	// tha real deal
 	cEVOController nature;
 

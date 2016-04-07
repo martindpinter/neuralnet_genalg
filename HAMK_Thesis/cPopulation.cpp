@@ -2,22 +2,6 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-// ************* sGenome ***************//
-float sGenome::CalculateFitness() {
-	float TargetValue = cParams::WeightCount * 0.5;
-	float CurrentValue = 0.0f;
-	for (int i = 0; i < value.size(); ++i) {
-		CurrentValue += value[i];
-	}
-
-	//float fitness = abs(1 - (1 / (TargetValue / CurrentValue)));
-	float fitness = randfloat();
-	std::cout << "The fitness of thie Genome is " << fitness << std::endl;
-	return fitness;
-}
-
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 
 // ************ cPopulation ***************//
 sGenome cPopulation::BuildRandomGenome() {

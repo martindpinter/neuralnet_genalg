@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Utilities.h"
+#include "cRocketHUD.h"
 #include <string>
 
 
@@ -17,7 +18,7 @@ public:
 		fullThrottle.loadFromFile(fullThrottleString);
 		fullThrottle.setSmooth(true);
 		fullThrottle.setRepeated(false);
-	
+
 	}
 
 	virtual void controlls(float frametime) = 0;
@@ -36,15 +37,14 @@ public:
 
 	std::vector<float> NNInputs;
 	//std::vector<float> GetNNInputs(cRocketController& Interceptor, cRocketController& EnemyRocket);
-	
-protected:
+
 	float angle = 0.0f;
 	float angular_velocity = 0.0f;
 	float throttle = 0.0f;
 	float angular_throttle = 0.0f;
-
-
-
+	
+protected:
+	
 	sf::Color color;
 	sf::Texture noThrottle;
 	std::string noThrottleString;

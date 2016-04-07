@@ -41,6 +41,7 @@ public:
 	static int nr0fOutputs;
 	static int nr0fHiddenLayers;
 	static int NeuronsPerHiddenLayer;
+	static int BiasValue;
 
 	//GenAlg
 	static int WeightCount;

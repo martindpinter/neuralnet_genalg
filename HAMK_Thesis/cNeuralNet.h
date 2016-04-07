@@ -26,10 +26,6 @@ struct sNeuronLayer {
 
 class cNeuralNet {
 private:
-	
-
-	float biasvalue = 1.0f;	// cParams!!
-
 	std::vector<sNeuronLayer> all_neuronLayers;
 
 public:
@@ -37,10 +33,8 @@ public:
 	cNeuralNet();
 	
 	void createNet();
-
-	std::vector<float> getWeights();
 	void feedWeights(std::vector<float> inputWeights);
-
+	std::vector<float> getWeights();
 	std::vector<float> evaluate(std::vector<float>);
 
 	float Sigmoid(float activation);
