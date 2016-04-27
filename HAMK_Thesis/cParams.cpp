@@ -1,8 +1,8 @@
 #include "cParams.h"
 float cParams::pi = 3.141592;
 // Render properties
-int cParams::WindowWidth = 1376;
-int cParams::WindowHeight = 768;
+int cParams::WindowWidth = 1200;
+int cParams::WindowHeight = 600;
 int cParams::Framerate = 60;
 
 // Rocket physics
@@ -10,7 +10,7 @@ float cParams::EnginePower = 0.2f;				// const?
 float cParams::RotationalEnginePower = 0.03f;	// const?
 
 // Initial positions of the rockets
-sf::Vector2f cParams::posRocketNN = sf::Vector2f(WindowWidth / 5, WindowHeight - WindowHeight / 10);
+sf::Vector2f cParams::posRocketNN = sf::Vector2f(WindowWidth / 5, WindowHeight - WindowHeight / 3);
 sf::Vector2f cParams::posRocketOPP = sf::Vector2f(WindowWidth - WindowWidth / 10, WindowHeight / 10);
 
 /* Initial velocities of the rocket */

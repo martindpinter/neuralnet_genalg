@@ -9,10 +9,10 @@ void cRocketNN::controlls(float frametime) {
 		accelerate(NNControls[0] * frametime);
 	}
 
-	if (NNControls[1] < 0.2) {	//jatszogatni
-		angular_accelerate((0.8 + NNControls[1]) * frametime);	// csak pozitivat ad, mindig jobbra fog menni
+	if (NNControls[1] < -0.4) {	//jatszogatni
+		angular_accelerate((NNControls[1]) * frametime);	// csak pozitivat ad, mindig jobbra fog menni
 	}
-	if (NNControls[1] > 0.8) {
+	if (NNControls[1] > 0.4) {
 		angular_accelerate(NNControls[1] * frametime);
 	}
 }
@@ -38,35 +38,54 @@ std::vector<float> cRocketNN::getNNinputs() {
 
 	
 	// INPUT 1 :: Sebessegvektor hossza
+	
 	float VelocityVectorLength = sqrt(pow(velocity.x, 2) + pow(velocity.y, 2));
-	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
 	returnvector.push_back(VelocityVectorLength);
 
 
 	// INPUT 2 :: Facevector es sebessegvector iranyanak kulonbsege
+	
 	float VeloVec_xAxisDegree = rad2deg(atan2(velocity.y, velocity.x));
+	
 	float FaceVec_xAxisDegree = rad2deg(angle);
 	
 	float VelocityFaceOffset = VeloVec_xAxisDegree - FaceVec_xAxisDegree;
-	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	returnvector.push_back(VelocityFaceOffset);
+
+	returnvector.push_back(abs(normalize(VelocityFaceOffset, 360, 0)));		//ABS??  negative result == 360 + result?		+(-x)
 
 
 	// INPUT 3 :: Celraketa sebessegvektora.x	// hozzank kepes legyen relativ
+	
 	float EnemyVelocity_xAxisDegree = rad2deg(atan2(LockOnTarget->velocity.y, LockOnTarget->velocity.x));
-	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	returnvector.push_back(EnemyVelocity_xAxisDegree - FaceVec_xAxisDegree);
+	
+	float RelativeToUs = EnemyVelocity_xAxisDegree - FaceVec_xAxisDegree;
+	
+	returnvector.push_back(abs(normalize(RelativeToUs, 0, 360)));
 	
 
 	// INPUT 4 :: Celraketa iranya az elfogohoz kepest (Left -1.0 ... +1.0 Right)
-	float Egocent_x = LockOnTarget->position.x - position.x;
-	float Egocent_y = LockOnTarget->position.y - position.y;
-	float RelativeAngle = atan2(Egocent_y, Egocent_x);
-
-	float direction = RelativeAngle / 2 * 3.141592;
-	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	returnvector.push_back(direction);
 	
+	float Egocent_x = LockOnTarget->position.x - position.x;
+	
+	float Egocent_y = LockOnTarget->position.y - position.y;
+	
+	float RelativeAngle = atan2(Egocent_y, Egocent_x);	//	Angle of incoming rocket relative to the interceptor in radians
+
+	//float direction = RelativeAngle / 2 * 3.141592;
+
+	//returnvector.push_back(normalize(direction, 0, 360));
+
+	float normRelativeAngle = normalize(RelativeAngle, 0, 2 * cParams::pi);
+
+	returnvector.push_back(normRelativeAngle);
+	
+	if (normRelativeAngle < 0.1 && normRelativeAngle > -0.1) {
+		char charchar;
+		std::cin >> charchar;
+	}
+	
+	std::cout << normalize(RelativeAngle, 0, 2 * cParams::pi) << std::endl;
 	//ne fuggjon az abszolut poziciotol, hanem a relativtol!!!
 
 

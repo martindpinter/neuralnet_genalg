@@ -22,3 +22,6 @@ float deg2rad(float par) {
 	return (par * 3.141592 / 180);
 }
 
+float normalize(float x, float min, float max) {
+	return ((x - min) / (max - min));
+}

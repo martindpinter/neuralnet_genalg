@@ -5,6 +5,7 @@
 float clamp(float x, float min, float max);
 float rad2deg(float);
 float deg2rad(float);
+float normalize(float x, float min, float max);
 
 
 
@@ -28,6 +29,13 @@ inline int randInt(int x, int y) {
 
 inline float randfloat() {
 	return (rand()) / (RAND_MAX + 1.0);
+}
+
+inline float randfloat(float x, float y) {
+	float RandBase = ((float)rand() / (float)RAND_MAX);	
+	float range = y - x;
+	float random = RandBase * range;
+	return x + random;
 }
 
 inline bool randBool() {

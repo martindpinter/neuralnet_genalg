@@ -7,8 +7,11 @@
 sGenome cPopulation::BuildRandomGenome() {
 
 	std::vector<float> RandomGenome;
+
+	float maxWeight = 1 / sqrt(cParams::nr0fInputs);
+
 	for (int i = 0; i < cParams::WeightCount; ++i) {
-		RandomGenome.push_back(randfloat());
+		RandomGenome.push_back(randfloat(-1, 1));
 	}
 	return sGenome(RandomGenome);
 }

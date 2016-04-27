@@ -50,12 +50,18 @@ void cRocketController::update(float frametime) {
 	controlls(frametime);		// event poll here
 
 	angular_velocity += angular_acceleration * frametime;
+	angular_velocity = clamp(angular_velocity, -0.4f, 0.4f);
 	angle += angular_velocity * frametime;
 	
-	angle = fmod(angle, 360.0f);	//rad?
+	angle = fmod(angle, 2*cParams::pi);
 
 	sf::Vector2f acceleration(cos(angle), sin(angle));
 	acceleration *= throttle * cParams::EnginePower;	//ha a throttle 0, 0vektorra zsugorul
+	
+	int k = 0.3;	// air resistance constant
+	acceleration.x -= k * velocity.x * velocity.x;	// air resistance
+	acceleration.y -= k * velocity.y * velocity.y;
+	
 	velocity += acceleration * frametime;
 	position += velocity * frametime;
 }
@@ -63,7 +69,7 @@ void cRocketController::update(float frametime) {
 void cRocketController::accelerate(float amount) {
 
 	throttle += amount;
-	throttle = clamp(throttle, -1.0f, 1.0f);
+	throttle = clamp(throttle, -5.0f, 5.0f);
 }
 
 void cRocketController::angular_accelerate(float alpha_amount) {
