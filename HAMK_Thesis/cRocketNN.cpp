@@ -36,72 +36,67 @@ std::vector<float> cRocketNN::getNNinputs() {
 
 	std::vector<float> returnvector;
 
-	
-	// INPUT 1 :: Sebessegvektor hossza
+
+	float Egocent_x = LockOnTarget->position.x - position.x;
+
+	float Egocent_y = LockOnTarget->position.y - position.y;
+
+	float EgocentV_x = LockOnTarget->velocity.x - velocity.x;
+
+	float EgocentV_y = LockOnTarget->velocity.y - velocity.y;
+
+
+	// INPUT 0 :: Sebessegvektor hossza
 	
 	float VelocityVectorLength = sqrt(pow(velocity.x, 2) + pow(velocity.y, 2));
 	
-	returnvector.push_back(VelocityVectorLength);
+	float normVelocityVectorLength = normalize(VelocityVectorLength, 0, 20);		// 20 is only a guess based on measurements
+	
+	returnvector.push_back(normVelocityVectorLength);
 
 
-	// INPUT 2 :: Facevector es sebessegvector iranyanak kulonbsege
+	// INPUT 1 :: Facevector es sebessegvector iranyanak kulonbsege
 	
-	float VeloVec_xAxisDegree = rad2deg(atan2(velocity.y, velocity.x));
+	float VeloVec_xAxisDegree = atan2(velocity.y, velocity.x);
 	
-	float FaceVec_xAxisDegree = rad2deg(angle);
-	
-	float VelocityFaceOffset = VeloVec_xAxisDegree - FaceVec_xAxisDegree;
+	float VelocityFaceOffset = angle - VeloVec_xAxisDegree;		// SWAPPED
 
-	returnvector.push_back(abs(normalize(VelocityFaceOffset, 360, 0)));		//ABS??  negative result == 360 + result?		+(-x)
+	returnvector.push_back(normalize(VelocityFaceOffset, 0, 2 * cParams::pi));	// check again
 
 
-	// INPUT 3 :: Celraketa sebessegvektora.x	// hozzank kepes legyen relativ
+	// INPUT 2 :: Celraketa sebessegvektoranak x-tengellyel bezart szoge radianban
 	
-	float EnemyVelocity_xAxisDegree = rad2deg(atan2(LockOnTarget->velocity.y, LockOnTarget->velocity.x));
+	float EnemyVelocity_xAxisDegree = atan2(EgocentV_y, EgocentV_x);
 	
-	float RelativeToUs = EnemyVelocity_xAxisDegree - FaceVec_xAxisDegree;
-	
-	returnvector.push_back(abs(normalize(RelativeToUs, 0, 360)));
-	
+	float normEVxAD = normalize(EnemyVelocity_xAxisDegree, 0, 2 * cParams::pi);		 
 
-	// INPUT 4 :: Celraketa iranya az elfogohoz kepest (Left -1.0 ... +1.0 Right)
-	
-	float Egocent_x = LockOnTarget->position.x - position.x;
-	
-	float Egocent_y = LockOnTarget->position.y - position.y;
-	
-	float RelativeAngle = atan2(Egocent_y, Egocent_x);	//	Angle of incoming rocket relative to the interceptor in radians
+	//normEVxAD = RescaleAtan2(normEVxAD);
 
-	//float direction = RelativeAngle / 2 * 3.141592;
-
-	//returnvector.push_back(normalize(direction, 0, 360));
-
-	float normRelativeAngle = normalize(RelativeAngle, 0, 2 * cParams::pi);
-
-	returnvector.push_back(normRelativeAngle);
-	
-	if (normRelativeAngle < 0.1 && normRelativeAngle > -0.1) {
-		char charchar;
-		std::cin >> charchar;
+	if (normEVxAD < 0) {		// CSUNYAVAGYNAGYON :(((((((
+		normEVxAD += 1;
 	}
+
+
+	returnvector.push_back(normEVxAD);
 	
-	std::cout << normalize(RelativeAngle, 0, 2 * cParams::pi) << std::endl;
-	//ne fuggjon az abszolut poziciotol, hanem a relativtol!!!
+
+	// INPUT 3 :: Celraketa iranya az elfogohoz kepest (Left 1.0 ... [Centre-> 0.5 <-Centre] ... 0.0 Right)
+	
+	float RelativeAngle = atan2(Egocent_y, Egocent_x);	//	Angle of incoming rocket relative to the interceptor's x axis in radians
+
+	//RelativeAngle = fmod(RelativeAngle, 2 * cParams::pi);	// NOT SURE IF NECCESSARY
+
+	float Difference = angle - RelativeAngle; // talan itt van elasva...
+
+	float normDifference = normalize(Difference, 0, 2 * cParams::pi);		// STILL NEEDS REWORKING (changed pi's coefficient from 2 to 4 to have 0.5 as centre)
+	
+	normDifference = RescaleAtan2(normDifference);
 
 
-	/*
-	returnvector.push_back(LockOnTarget->position.x);
-	returnvector.push_back(LockOnTarget->position.y);
-	returnvector.push_back(sqrt(  (LockOnTarget->position.x + LockOnTarget->velocity.x) * (LockOnTarget->position.x + LockOnTarget->velocity.x)
-								+ (LockOnTarget->position.y + LockOnTarget->velocity.y) * (LockOnTarget->position.y + LockOnTarget->velocity.y)));
-	// + LockOnTarget's position to left or right from facevector (maybe -1...1 or 0...1)?
+	std::cout << "Normalized Difference is " << normDifference << std::endl;
 
-	returnvector.push_back(position.x);
-	returnvector.push_back(position.y);
-	returnvector.push_back(sqrt(  (position.x + velocity.x) * (position.x + velocity.x)
-								+ (position.y + velocity.y) * (position.y + velocity.y)));
-	// + Interceptor's VELOCITY and FACEVECTOR differenct left-right?
-	*/
+	returnvector.push_back(normDifference);
+
 	//cParams::nr0fInputs = returnvector.size();
 
 	return returnvector;

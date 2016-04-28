@@ -6,6 +6,7 @@ float clamp(float x, float min, float max);
 float rad2deg(float);
 float deg2rad(float);
 float normalize(float x, float min, float max);
+float RescaleAtan2(float par);
 
 
 

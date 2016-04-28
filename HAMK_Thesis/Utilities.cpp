@@ -25,3 +25,11 @@ float deg2rad(float par) {
 float normalize(float x, float min, float max) {
 	return ((x - min) / (max - min));
 }
+
+float RescaleAtan2(float par) {		// (Left 1.0 ... [Centre-> 0.5 <-Centre] ... 0.0 Right)
+	par -= 0.5;
+	if (par < 0) {
+		return par + 1.0;
+	}
+	return par;
+}
