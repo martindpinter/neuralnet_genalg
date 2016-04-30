@@ -72,24 +72,28 @@ float cEVOController::simulate(cRocketNN * Interceptor, cRocketRND * EnemyRocket
 	while (!OutOfBounds(Interceptor, EnemyRocket) && CollisionDetection == false) {
 
 		Interceptor->SetNNControls(TheNet);
-		Interceptor->update(frametime);
-		EnemyRocket->update(frametime);
-
-		//std::cout << "Interceptor ::  X [" << Interceptor->position.x << "]   Y [" << Interceptor->position.y << "]" << std::endl;
-		//std::cout << "Interceptor's Angle [" << rad2deg(Interceptor->angle) << "] " << std::endl;
 		
+		Interceptor->update(frametime);
+		
+		EnemyRocket->update(frametime);		
 		
 		CollisionDetection = Interceptor->collision(EnemyRocket);
+		
 		float CurrentDistance = CalculateDistance(Interceptor, EnemyRocket);
+
 
 		if (CurrentDistance < ClosestDistance) {
 			ClosestDistance = CurrentDistance;
 		}
 
 		if (BenchmarkMode == false) {
+			
 			window.clear(sf::Color::Black);
+			
 			Interceptor->draw(window);
+			
 			EnemyRocket->draw(window);
+			
 			window.display();
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
@@ -101,6 +105,8 @@ float cEVOController::simulate(cRocketNN * Interceptor, cRocketRND * EnemyRocket
 
 	float SimulationTime = SimulationClock.restart().asSeconds();
 
-	return (CollisionDetection * SimulationTime + !CollisionDetection * ClosestDistance) / (SimulationTime + (!CollisionDetection * 100));
+	//return (CollisionDetection * SimulationTime + !CollisionDetection * ClosestDistance) / (SimulationTime + (!CollisionDetection * 100));
+
+	return (CollisionDetection * (1 - SimulationTime / 10) + !CollisionDetection * (1 / ClosestDistance * SimulationTime));
 
 }

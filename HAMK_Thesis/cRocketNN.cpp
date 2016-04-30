@@ -93,7 +93,7 @@ std::vector<float> cRocketNN::getNNinputs() {
 	normDifference = RescaleAtan2(normDifference);
 
 
-	std::cout << "Normalized Difference is " << normDifference << std::endl;
+	//std::cout << "Normalized Difference is " << normDifference << std::endl;
 
 	returnvector.push_back(normDifference);
 
