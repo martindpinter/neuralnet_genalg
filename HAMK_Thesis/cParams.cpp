@@ -7,7 +7,11 @@ int cParams::Framerate = 60;
 
 // Rocket physics
 float cParams::EnginePower = 0.2f;				// const? 
-float cParams::RotationalEnginePower = 0.03f;	// const?
+float cParams::RotationalEnginePower = 0.003f;	// const?
+
+float cParams::ConstAirResistance = 0.0000003;
+
+float cParams::NNC_Deadzone = 0.15;	//	This value determines the deadzone for Left-Right controls of the Interceptor.
 
 // Initial positions of the rockets
 //sf::Vector2f cParams::posRocketNN = sf::Vector2f(WindowWidth / 5, WindowHeight - WindowHeight / 3);
@@ -19,7 +23,7 @@ sf::Vector2f cParams::posRocketOPP = sf::Vector2f(500, 400);
 
 /* Initial velocities of the rocket */
 sf::Vector2f cParams::velRocketNN = sf::Vector2f(0, 0);
-sf::Vector2f cParams::velRocketOPP = sf::Vector2f(-3, 0);
+sf::Vector2f cParams::velRocketOPP = sf::Vector2f(0, -3);
 
 float cParams::angleRocketNN = 1.75 * pi;
 float cParams::angleRocketOPP = pi;

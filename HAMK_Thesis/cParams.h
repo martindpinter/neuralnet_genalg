@@ -16,6 +16,10 @@ public:
 	static float EnginePower;
 	static float RotationalEnginePower;
 
+	static float ConstAirResistance;
+
+	static float NNC_Deadzone;
+
 
 	static sf::Vector2f posRocketNN;
 	static sf::Vector2f posRocketOPP;

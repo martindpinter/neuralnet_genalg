@@ -4,15 +4,15 @@
 #include "cRocketRND.h"
 
 void cRocketNN::controlls(float frametime) {
-
+	std::cout << "NNControls[1]: " << NNControls[1] << std::endl;
 	if (NNControls[0] > 0.4) {
 		accelerate(NNControls[0] * frametime);
 	}
 
-	if (NNControls[1] < -0.4) {	//jatszogatni
-		angular_accelerate((NNControls[1]) * frametime);	// csak pozitivat ad, mindig jobbra fog menni
+	if (NNControls[1] < 0.5 - cParams::NNC_Deadzone) {	//jatszogatni
+		angular_accelerate(-0.5 - cParams::NNC_Deadzone - NNControls[1] * frametime);
 	}
-	if (NNControls[1] > 0.4) {
+	if (NNControls[1] > 0.5 + cParams::NNC_Deadzone) {
 		angular_accelerate(NNControls[1] * frametime);
 	}
 }

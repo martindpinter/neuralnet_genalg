@@ -18,9 +18,9 @@ void cRocketRND::controlls(float frametime) {
 		int rnd_action = rand() % 4 + 1;
 
 		switch (rnd_action) {
-		case 1: accelerate(0.33f * frametime);	// UP
+		case 1: accelerate(0.75f * frametime);	// UP
 			break;
-		case 2: accelerate(-0.33f * frametime);	// DOWN
+		case 2: accelerate(-0.75f * frametime);	// DOWN
 			break;
 		case 3: angular_accelerate(-1.0f * frametime);	// LEFT
 			break;

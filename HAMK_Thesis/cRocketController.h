@@ -31,6 +31,7 @@ public:
 	void update(float frametime);
 	void accelerate(float amount);
 	void angular_accelerate(float amount);
+	sf::Vector2f CalcAirResistance(sf::Vector2f);
 	
 	bool collision(cRocketController *);
 	bool OutOfBounds();

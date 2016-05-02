@@ -9,7 +9,6 @@
 
 struct sNeuron {
 
-	int nr0fInputs;						//number of inputs
 	std::vector<float> weights;		//weights for each input
 	
 	sNeuron(int nr0fInputs);

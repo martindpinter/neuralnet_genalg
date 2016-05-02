@@ -81,6 +81,8 @@ std::vector<float> cNeuralNet::evaluate(std::vector<float> inputvector) {
 	std::vector<float> OneLayerOutputs;
 	std::vector<float> OutputVector;
 
+	// Evaluating through the Input Layer and Hidden Layers
+
 	for (int i = 0; i < cParams::nr0fHiddenLayers; ++i) { // nem adunk hozza +1et, mert az output layert kulon kezeljuk
 		if (i > 0) {
 			OneLayerInputs = OneLayerOutputs;
@@ -105,6 +107,8 @@ std::vector<float> cNeuralNet::evaluate(std::vector<float> inputvector) {
 
 	OneLayerInputs = OneLayerOutputs;
 
+	// Evaluating through the Output layer
+
 	for (int i = 0; i < cParams::nr0fOutputs; ++i) {
 		
 		float total = 0.0f;
@@ -122,32 +126,6 @@ std::vector<float> cNeuralNet::evaluate(std::vector<float> inputvector) {
 	}
 
 	return OutputVector;
-
-	/*
-	std::vector<float> oneLayerOutputs;
-	
-	for (int i = 0; i < cParams::nr0fHiddenLayers + 1; ++i) {	// each layer i
-
-		if (i > 0)	
-			inputvector = oneLayerOutputs;
-
-		for (int j = 0; j < all_neuronLayers[i].nr0fNeurons; ++j) {		// each neuron j
-
-			float total = 0.0f;
-			
-			
-			for (int k = 0; k < all_neuronLayers[i].one_neuronLayer[j].nr0fInputs; ++k) {	// each weight k
-				
-				if (k != all_neuronLayers[i].one_neuronLayer[j].nr0fInputs - 1)	// if this is NOT the last weight
-					total += all_neuronLayers[i].one_neuronLayer[j].weights[k] * inputvector[k];
-				else
-					total += all_neuronLayers[i].one_neuronLayer[j].weights[k] * biasvalue;
-			}
-
-				oneLayerOutputs.push_back(Sigmoid(total));
-		}
-	}
-	return oneLayerOutputs;*/
 }
 
 float cNeuralNet::Sigmoid(float activation) {
