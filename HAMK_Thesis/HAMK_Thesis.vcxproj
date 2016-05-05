@@ -121,28 +121,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cEVOController.cpp" />
-    <ClCompile Include="cPopulation.cpp" />
-    <ClCompile Include="cNeuralNet.cpp" />
-    <ClCompile Include="cParams.cpp" />
-    <ClCompile Include="cRocketHUD.cpp" />
+    <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="Population.cpp" />
+    <ClCompile Include="NeuralNet.cpp" />
+    <ClCompile Include="Params.cpp" />
+    <ClCompile Include="RocketHUD.cpp" />
+    <ClCompile Include="GraphicalRun.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="cRocketController.cpp" />
-    <ClCompile Include="cRocketHC.cpp" />
-    <ClCompile Include="cRocketNN.cpp" />
-    <ClCompile Include="cRocketRND.cpp" />
+    <ClCompile Include="RocketController.cpp" />
+    <ClCompile Include="RocketHC.cpp" />
+    <ClCompile Include="RocketNN.cpp" />
+    <ClCompile Include="RocketRND.cpp" />
+    <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="PerformanceRun.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cEVOController.h" />
-    <ClInclude Include="cPopulation.h" />
-    <ClInclude Include="cNeuralNet.h" />
-    <ClInclude Include="cParams.h" />
-    <ClInclude Include="cRocketHC.h" />
-    <ClInclude Include="cRocketHUD.h" />
-    <ClInclude Include="cRocketNN.h" />
-    <ClInclude Include="cRocketController.h" />
-    <ClInclude Include="cRocketRND.h" />
+    <ClInclude Include="GUI.h" />
+    <ClInclude Include="Population.h" />
+    <ClInclude Include="NeuralNet.h" />
+    <ClInclude Include="Params.h" />
+    <ClInclude Include="RocketHC.h" />
+    <ClInclude Include="RocketHUD.h" />
+    <ClInclude Include="RocketNN.h" />
+    <ClInclude Include="RocketController.h" />
+    <ClInclude Include="RocketRND.h" />
+    <ClInclude Include="GraphicalRun.h" />
+    <ClInclude Include="Manager.h" />
+    <ClInclude Include="PerformanceRun.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

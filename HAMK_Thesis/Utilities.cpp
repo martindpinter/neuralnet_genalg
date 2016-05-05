@@ -1,5 +1,5 @@
-#pragma once
 #include "Utilities.h"
+#include <sstream>
 
 float clamp(float x, float min, float max) {
 
@@ -32,4 +32,21 @@ float RescaleAtan2(float par) {		// (Left 1.0 ... [Centre-> 0.5 <-Centre] ... 0.
 		return par + 1.0;
 	}
 	return par;
+}
+
+float CalculateDistance2(sf::Vector2f a, sf::Vector2f b) {
+	return (sqrt(pow((b.x - a.x), 2) + pow((b.y - a.y), 2)));
+}
+
+
+std::vector<std::string> explode(std::string const & FullString, char Separator) {
+
+	std::vector<std::string> result;
+	std::istringstream iss(FullString);
+
+	for (std::string token; std::getline(iss, token, Separator); ) {
+		result.push_back(std::move(token));
+	}
+
+	return result;
 }

@@ -1,48 +1,33 @@
-#include "cRocketController.h"
-#include "cRocketHC.h"
-#include "cRocketRND.h"
-#include "cRocketNN.h"
-#include "cNeuralNet.h"
-#include "cParams.h"
-#include "cPopulation.h"
-
-#include "cEVOController.h"
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-#define PI 3.141592;
+#include "PerformanceRun.h"
+#include "GraphicalRun.h"
 
-//bool collision(cRocketHC& oneRocket, cRocketRND& otherRocket);
+#define PI 3.141592;
 
 
 int main() {
 	
 	srand(time(nullptr));
 
-	sf::Clock frameclock;
-
-	sf::RenderWindow window(sf::VideoMode(cParams::WindowWidth, cParams::WindowHeight), "Martin Pinter - HAMK Thesis");
+	std::cout << "MENU" << std::endl;
+	std::cout << "1. Console Simulation" << std::endl;
+	std::cout << "2. Graphical Simulation" << std::endl;
 	
-	window.setFramerateLimit(cParams::Framerate);
-	
-	// tha real deal
-	cEVOController nature;
+	char menuChoice;
+	std::cin >> menuChoice;
 
-	while (window.isOpen()) {
-		//Frametime counting	
-		float frametime = frameclock.restart().asSeconds();
-
-		sf::Event event;
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) { window.close(); }
-		}
-
-		nature.run(window, frametime);		
-
-		window.display();		//end the current frame
-
+	if (menuChoice == '1') {
+		PerformanceRun GM;
+		GM.Run();
 	}
+	if (menuChoice == '2') {
+		GraphicalRun GM;
+		GM.Run();
+	}
+	
+
 	return 0;
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdlib>
+#include <SFML/Graphics.hpp>
 
 
 float clamp(float x, float min, float max);
@@ -7,6 +8,8 @@ float rad2deg(float);
 float deg2rad(float);
 float normalize(float x, float min, float max);
 float RescaleAtan2(float par);
+float CalculateDistance2(sf::Vector2f a, sf::Vector2f b);
+std::vector<std::string> explode(std::string const & FullString, char Separator);
 
 
 
@@ -16,8 +19,6 @@ struct SPoint {
 	SPoint() {}
 	SPoint(float a, float b) : x(a), y(b) {}
 };
-
-
 
 
 
