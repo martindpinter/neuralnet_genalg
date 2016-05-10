@@ -29,8 +29,10 @@ public:
 	
 
 	void Run();
-	void Save();
-	void Load();
+	void Save(std::ostream& out, const sGenome& genome);
+	void Load(std::istream& in, sGenome& genome);
+	void SaveAll();
+	void LoadAll();
 
 	float CalculateDistance();
 	

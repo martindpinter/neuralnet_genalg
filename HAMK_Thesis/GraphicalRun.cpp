@@ -26,13 +26,13 @@ float GraphicalRun::Simulate() {
 
 		PhysicsTimeStepAccumulator += FrameSeconds;
 
-		while (PhysicsTimeStepAccumulator >= Params::PhysicsTimeStep) {	// PhysicsTimeStep = 1/60
+		HandleUserInput();
+
+		while (PhysicsTimeStepAccumulator >= Params::PhysicsTimeStep) {	// PhysicsTimeStep = 1/60	// szive lelke
 
 			Interceptor.SetNNControls(&TheNet);
 
-			HandleUserInput();
-
-			Interceptor.update();	//frametimet kivenni
+			Interceptor.update();
 			Bandit.update();
 
 
@@ -50,17 +50,16 @@ float GraphicalRun::Simulate() {
 		GUI (Window, iGeneration, iGenome);
 
 		Window.display();
-		if (fpsLimit > 0) {
-			const sf::Time RenderTime = Clock.getElapsedTime();
-			if (RenderTime.asSeconds() < 1.0f / fpsLimit) {
-				sf::sleep(sf::seconds(1.0f / fpsLimit - RenderTime.asSeconds()));
-			}
-		}
+		
 	}
 
 	float SimulationTime = SimulationClock.restart().asSeconds();
-
+	
 	return (CollisionDetection * (1 - SimulationTime / 10) + !CollisionDetection * (1 / ClosestDistance * SimulationTime));
+	
+	//return (CollisionDetection * SimulationTime + !CollisionDetection * ClosestDistance) / SimulationTime;
+
+	//return (CollisionDetection * (100 - SimulationTime) + !CollisionDetection * (1 / ClosestDistance * SimulationTime));
 }
 
 void GraphicalRun::HandleUserInput() {
@@ -80,10 +79,12 @@ void GraphicalRun::HandleUserInput() {
 			
 			switch (event.key.code) {
 			case sf::Keyboard::S:
-				Save();
+				SaveAll();
 				break;
 			case sf::Keyboard::L:
-				Load();
+				Interceptor.reset();
+				Bandit.reset();
+				LoadAll();
 				break;
 			case sf::Keyboard::Escape:
 				Window.close();

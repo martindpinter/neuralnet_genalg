@@ -20,6 +20,7 @@ int main() {
 
 	if (menuChoice == '1') {
 		PerformanceRun GM;
+		//GM.LoadAll();
 		GM.Run();
 	}
 	if (menuChoice == '2') {
