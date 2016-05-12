@@ -10,9 +10,6 @@ float GraphicalRun::Simulate() {
 	bool CollisionDetection = false;
 	float ClosestDistance = sqrt(pow(Params::WindowHeight, 2) + pow(Params::WindowWidth, 2));
 	
-	float leftmostAngle = Interceptor.angle;
-	float rightmostAngle = Interceptor.angle;
-	
 	signed LookAtScore = 0;
 
 	
@@ -25,9 +22,7 @@ float GraphicalRun::Simulate() {
 		float FrameSeconds = FrameTime.asSeconds();
 		fps = 1 / FrameSeconds;	// pl. 60 -szor lesz meg benne
 
-		if (FrameSeconds > 0.1f) {
-			FrameSeconds = 0.1f;
-		}
+		if (FrameSeconds > 0.1f) FrameSeconds = 0.1f;
 
 		PhysicsTimeStepAccumulator += FrameSeconds;
 

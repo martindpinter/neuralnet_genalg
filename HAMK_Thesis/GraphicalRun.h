@@ -7,11 +7,10 @@ public:
 	GraphicalRun() : 
 		Window(sf::VideoMode(Params::WindowWidth, Params::WindowHeight), "Martin Pinter - HAMK Thesis", sf::Style::None) {}
 	
-	virtual float Simulate() override;
-
-	void HandleUserInput();
-
 	sf::RenderWindow Window;
+
+	virtual float Simulate() override;
+	void HandleUserInput();
 
 	float fps;
 	float fpsLimit;

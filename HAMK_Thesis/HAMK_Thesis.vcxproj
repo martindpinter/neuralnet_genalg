@@ -137,6 +137,7 @@
     <ClCompile Include="RocketRND.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="PerformanceRun.cpp" />
+    <ClCompile Include="Sandbox.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="GraphicalRun.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="PerformanceRun.h" />
+    <ClInclude Include="Sandbox.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -9,16 +9,14 @@ void RocketHC::controlls() {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		//throttle
-		accelerate(0.33f);	//	a trukk az, hogy itt is meg kell szorozni, 1/3sec alatt gyorsul fullra (0.33f)
+		accelerate(0.9f);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		//angular_accelerate(-0.66f * frametime);
-		angular_accelerate(-1.0f);
+		angular_accelerate(-0.9f);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		//angular_accelerate(0.66f * frametime);	//masfel sec alatt gyorsul 100ra
-		angular_accelerate(1.0f);
+		angular_accelerate(0.9f);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		accelerate(-0.33f);
@@ -26,7 +24,11 @@ void RocketHC::controlls() {
 }
 
 void RocketHC::reset() {
-	position = Params::posRocketNN;
-	velocity = Params::velRocketNN;
-	angle = Params::angleRocketNN;
+	position = Params::posRocketHC;
+	velocity = Params::velRocketHC;
+	angle = Params::angleRocketHC;
+	throttle = 0.0f;
+	angular_throttle = 0.0f;
+	angular_velocity = 0.0f;
+	rotationalSum = 0.0f;
 }

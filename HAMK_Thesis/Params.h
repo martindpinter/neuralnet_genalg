@@ -29,14 +29,17 @@ public:
 
 	static sf::Vector2f posRocketNN;
 	static sf::Vector2f posRocketOPP;
+	static sf::Vector2f posRocketHC;
 
 
 	static sf::Vector2f velRocketNN;
 	static sf::Vector2f velRocketOPP;
+	static sf::Vector2f velRocketHC;
 
 
 	static float angleRocketNN;
 	static float angleRocketOPP;
+	static float angleRocketHC;
 
 
 	/*
