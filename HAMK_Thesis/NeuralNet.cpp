@@ -122,9 +122,3 @@ std::vector<float> NeuralNet::evaluate(std::vector<float> inputvector) {
 
 	return OutputVector;
 }
-
-float NeuralNet::Sigmoid(float activation) {
-	
-	float response = 1.0f;
-	return (1 / (1 + exp(-activation / response)));
-}

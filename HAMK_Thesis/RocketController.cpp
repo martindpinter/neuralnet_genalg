@@ -1,5 +1,6 @@
 #include "RocketController.h"
 #include "Params.h"
+#include <iostream>	// don't forget to remove
 
 sf::Vector2f RocketController::getPosition() {
 	return position;
@@ -10,6 +11,22 @@ bool RocketController::OutOfBounds() {
 		return true;
 	else
 		return false;
+}
+
+
+//Celraketa iranya az elfogohoz kepest(Left 0.0 ...[Centre-> 0.5 <-Centre] ... 1.0 Right)
+float RocketController::LookAt(RocketController* EnemyRocket) {
+
+	float Egocent_x = EnemyRocket->position.x - position.x;
+	float Egocent_y = EnemyRocket->position.y - position.y;
+	
+	float Angle_reltoX = atan2(Egocent_y, Egocent_x);
+	float Difference = 2 * Params::pi - angle - Angle_reltoX;
+
+	float normDifference = normalize(Difference, -1 * Params::pi, 1 * Params::pi);
+
+	return normDifference;
+
 }
 
 bool RocketController::collision(RocketController * otherRocket) {
@@ -51,10 +68,19 @@ void RocketController::update() {
 	angular_velocity += angular_acceleration;
 	angular_velocity = clamp(angular_velocity, -0.4f, 0.4f);
 
+	prevAngle = angle;
 
 	angle += angular_velocity;
+	
+	rotationalSum += angle - prevAngle;
 
-	angle = fmod(angle, 2 * Params::pi);
+	if (angle < 0)
+		angle = 2 * Params::pi + angle;
+
+	angle = std::fmod(angle, 2 * Params::pi);
+
+
+
 
 	sf::Vector2f acceleration(cos(angle), sin(angle));
 	acceleration *= throttle * Params::EnginePower;	//ha a throttle 0, 0vektorra zsugorul
@@ -84,4 +110,24 @@ sf::Vector2f RocketController::CalcAirResistance(sf::Vector2f acceleration)
 	acceleration.y -= Params::ConstAirResistance * velocity.y * velocity.y;
 
 	return acceleration;
+}
+
+float RocketController::calcLookAtScore(signed * LookAtScore, RocketController * EnemyRocket) {
+	
+	float LookAtEnemy = LookAt(EnemyRocket);
+
+	if (LookAtEnemy > 0.48 && LookAtEnemy < 0.52)
+		LookAtScore++;
+	else
+		LookAtScore--;
+
+
+	return 0.0f;
+}
+
+void RocketController::CheckForSpin() {
+	if (SpinAlert == false) {
+		if (rotationalSum >= Params::pi) SpinAlert = true;
+		else if (rotationalSum <= -1 * Params::pi) SpinAlert = true;
+	}
 }

@@ -1,16 +1,21 @@
 #include "GraphicalRun.h"
 #include "GUI.h"
+#include "Utilities.h"
 
 float GraphicalRun::Simulate() {
 
+	sf::Clock Clock;
 	sf::Clock SimulationClock;
 		
 	bool CollisionDetection = false;
-
 	float ClosestDistance = sqrt(pow(Params::WindowHeight, 2) + pow(Params::WindowWidth, 2));
+	
+	float leftmostAngle = Interceptor.angle;
+	float rightmostAngle = Interceptor.angle;
+	
+	signed LookAtScore = 0;
 
-
-	sf::Clock Clock;
+	
 
 	float PhysicsTimeStepAccumulator = 0.0f;
 
@@ -35,6 +40,10 @@ float GraphicalRun::Simulate() {
 			Interceptor.update();
 			Bandit.update();
 
+			Interceptor.calcLookAtScore(&LookAtScore, &Bandit);
+
+			Interceptor.CheckForSpin();
+
 
 			CollisionDetection = Interceptor.collision(&Bandit);	//RocketController.cpp
 
@@ -55,7 +64,25 @@ float GraphicalRun::Simulate() {
 
 	float SimulationTime = SimulationClock.restart().asSeconds();
 	
-	return (CollisionDetection * (1 - SimulationTime / 10) + !CollisionDetection * (1 / ClosestDistance * SimulationTime));
+	//std::cout << std::endl << LookAtScore << std::endl;
+
+	if (CollisionDetection) {
+		float returnvalue = Sigmoid(Params::MaxSimulationTime - SimulationTime, 5.0) + 1 + (LookAtScore * 0.001);
+		
+		if (Interceptor.SpinAlert) return returnvalue;
+		else return returnvalue + 0.5;
+	}
+	else {
+		float returnvalue = Sigmoid(Params::MaxSimulationTime / (ClosestDistance * SimulationTime)) + (LookAtScore * 0.001);
+
+		if (Interceptor.SpinAlert) return returnvalue - 0.5;
+		else return returnvalue;
+	}
+	
+	
+	//return (CollisionDetection * (1 - SimulationTime / 10) + !CollisionDetection * (1 / ClosestDistance * SimulationTime));
+
+	
 	
 	//return (CollisionDetection * SimulationTime + !CollisionDetection * ClosestDistance) / SimulationTime;
 
@@ -85,6 +112,15 @@ void GraphicalRun::HandleUserInput() {
 				Interceptor.reset();
 				Bandit.reset();
 				LoadAll();
+				break;
+			case sf::Keyboard::Add:
+				if (Params::PhysicsTimeStep >= 0.003)
+					Params::PhysicsTimeStep -= (0.1 / Params::PhysicsTimeStepsPerSecond);
+				std::cout << Params::PhysicsTimeStep << std::endl;
+				break;
+			case sf::Keyboard::Subtract:
+				Params::PhysicsTimeStep += (0.1 / Params::PhysicsTimeStepsPerSecond);
+				std::cout << Params::PhysicsTimeStep << std::endl;
 				break;
 			case sf::Keyboard::Escape:
 				Window.close();

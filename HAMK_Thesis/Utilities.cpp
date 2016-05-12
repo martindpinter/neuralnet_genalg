@@ -26,14 +26,6 @@ float normalize(float x, float min, float max) {
 	return ((x - min) / (max - min));
 }
 
-float RescaleAtan2(float par) {		// (Left 1.0 ... [Centre-> 0.5 <-Centre] ... 0.0 Right)
-	par -= 0.5;
-	if (par < 0) {
-		return par + 1.0;
-	}
-	return par;
-}
-
 float CalculateDistance2(sf::Vector2f a, sf::Vector2f b) {
 	return (sqrt(pow((b.x - a.x), 2) + pow((b.y - a.y), 2)));
 }
@@ -49,4 +41,14 @@ std::vector<std::string> explode(std::string const & FullString, char Separator)
 	}
 
 	return result;
+}
+
+float Sigmoid(float activation) {
+
+	float response = 1.0f;
+	return (1 / (1 + exp(-activation / response)));
+}
+
+float Sigmoid(float activation, float response) {
+	return (1 / (1 + exp(-activation / response)));
 }

@@ -33,13 +33,21 @@ public:
 	void accelerate(float amount);
 	void angular_accelerate(float amount);
 	sf::Vector2f CalcAirResistance(sf::Vector2f);
+
+	float calcLookAtScore(signed * LookAtScore, RocketController * EnemyRocket);
+	void CheckForSpin();
 	
+	bool SpinAlert = false;
 	bool collision(RocketController *);
 	bool OutOfBounds();
+	float LookAt(RocketController *);
 
 	std::vector<float> NNInputs;
 
 	float angle = 0.0f;
+	float prevAngle = angle;
+	float rotationalSum = 0.0f;	// for anti spin
+
 	float angular_velocity = 0.0f;
 	float throttle = 0.0f;
 	float angular_throttle = 0.0f;

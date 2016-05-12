@@ -35,5 +35,9 @@ void RocketRND::reset() {
 	position = Params::posRocketOPP;
 	velocity = Params::velRocketOPP;
 	angle = Params::angleRocketOPP;
+	throttle = 0.0f;
+	angular_throttle = 0.0f;
+	angular_velocity = 0.0f;
+	rotationalSum = 0.0f;
 }
 

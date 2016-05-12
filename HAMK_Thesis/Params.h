@@ -12,6 +12,8 @@ public:
 
 	static bool GraphicalSimulation;
 
+	static int MaxSimulationTime;
+
 	static float PhysicsTimeStepsPerSecond;
 	static float PhysicsTimeStep;
 

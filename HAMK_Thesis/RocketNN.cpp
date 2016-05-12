@@ -25,6 +25,7 @@ void RocketNN::reset() {
 	throttle = 0.0f;
 	angular_throttle = 0.0f;
 	angular_velocity = 0.0f;
+	rotationalSum = 0.0f;
 }
 
 void RocketNN::SetNNControls(NeuralNet *NN) {
@@ -85,18 +86,9 @@ std::vector<float> RocketNN::getNNinputs() {
 	returnvector.push_back(normEVxAD);
 	
 
-	// INPUT 3 :: Celraketa iranya az elfogohoz kepest (Left 1.0 ... [Centre-> 0.5 <-Centre] ... 0.0 Right)
-	
-	float RelativeAngle = atan2(Egocent_y, Egocent_x);	//	Angle of incoming rocket relative to the interceptor's x axis in radians
+	// INPUT 3 :: Celraketa iranya az elfogohoz kepest (Left 0.0 ... [Centre-> 0.5 <-Centre] ... 1.0 Right)
 
-	float Difference = angle - RelativeAngle;
-
-	float normDifference = normalize(Difference, 0, 2 * Params::pi);
-	
-	normDifference = RescaleAtan2(normDifference);
-
-	returnvector.push_back(normDifference);
-
+	returnvector.push_back(LookAt(LockOnTarget));
 
 	return returnvector;
 }

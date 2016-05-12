@@ -35,6 +35,4 @@ public:
 	void feedWeights(std::vector<float> inputWeights);
 	std::vector<float> getWeights();
 	std::vector<float> evaluate(std::vector<float>);
-
-	float Sigmoid(float activation);
 };
