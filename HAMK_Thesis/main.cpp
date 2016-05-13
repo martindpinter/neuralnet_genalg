@@ -26,11 +26,11 @@ int main() {
 		//GM.LoadAll();
 		GM.Run();
 	}
-	if (menuChoice == '2') {
+	else if (menuChoice == '2') {
 		GraphicalRun GM;
 		GM.Run();
 	}
-	if (menuChoice == '3') {
+	else if (menuChoice == '3') {
 		Sandbox GM;
 		GM.Run();
 	}

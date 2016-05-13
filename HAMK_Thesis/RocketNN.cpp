@@ -3,19 +3,32 @@
 #include <SFML/Graphics.hpp>
 #include "RocketRND.h"
 
-void RocketNN::controlls() {
+void RocketNN::controls() {
 
 	if (NNControls[0] > 0.4) {
-		accelerate(NNControls[0]);
+		//accelerate(NNControls[0]);
+		//accelerate(NNControls[0] * 0.01);	// gradual acceleration
+		accelerate(0.01f);
 	}
+	else
+		accelerate(-0.006f);
 
-	if (NNControls[1] < 0.5 - Params::NNC_Deadzone) {	//jatszogatni
-		angular_accelerate(-0.5 - Params::NNC_Deadzone - NNControls[1]);
+	if (NNControls[1] < 0.5 - Params::NNC_Deadzone) {
+		//angular_accelerate(-0.5 - Params::NNC_Deadzone - NNControls[1]);
+		if (angular_throttle > 0)
+			angular_accelerate(-0.03f);
+		else
+			angular_accelerate(-0.01f);
 	}
-
-	if (NNControls[1] > 0.5 + Params::NNC_Deadzone) {
-		angular_accelerate(NNControls[1]);
+	else if (NNControls[1] > 0.5 + Params::NNC_Deadzone) {
+		//angular_accelerate(NNControls[1]);
+		if (angular_throttle < 0)
+			angular_accelerate(0.03f);
+		else
+			angular_accelerate(0.01f);
 	}
+	else
+		angular_accelerate((-1 * angular_throttle) / 30);
 }
 
 void RocketNN::reset() {

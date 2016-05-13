@@ -2,6 +2,7 @@
 #include "Params.h"
 #include <iostream>	// don't forget to remove
 
+//redundant
 sf::Vector2f RocketController::getPosition() {
 	return position;
 }
@@ -63,13 +64,13 @@ void RocketController::update() {
 
 	float angular_acceleration = angular_throttle * Params::RotationalEnginePower;
 
-	controlls();		// event poll here
+	controls();		// event poll here
 
 	angular_velocity += angular_acceleration;
 	angular_velocity = clamp(angular_velocity, -0.4f, 0.4f);
+	angular_velocity *= Params::Friction;
 
 	prevAngle = angle;
-
 	angle += angular_velocity;
 	
 	rotationalSum += angle - prevAngle;
@@ -79,16 +80,14 @@ void RocketController::update() {
 
 	angle = std::fmod(angle, 2 * Params::pi);
 
-
-
-
 	sf::Vector2f acceleration(cos(angle), sin(angle));
 	acceleration *= throttle * Params::EnginePower;	//ha a throttle 0, 0vektorra zsugorul
 
-	acceleration = CalcAirResistance(acceleration);
+	//acceleration = CalcAirResistance(acceleration);
 
 
 	velocity += acceleration;
+	velocity *= Params::Friction;
 	position += velocity;
 }
 
@@ -100,7 +99,7 @@ void RocketController::accelerate(float amount) {
 }
 
 void RocketController::angular_accelerate(float alpha_amount) {
-	angular_throttle = alpha_amount;	// Originally += 
+	angular_throttle += alpha_amount;
 	angular_throttle = clamp(angular_throttle, -1.0, 1.0);
 }
 

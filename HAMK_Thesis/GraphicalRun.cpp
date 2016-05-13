@@ -73,15 +73,6 @@ float GraphicalRun::Simulate() {
 		if (Interceptor.SpinAlert) return returnvalue - 0.5;
 		else return returnvalue;
 	}
-	
-	
-	//return (CollisionDetection * (1 - SimulationTime / 10) + !CollisionDetection * (1 / ClosestDistance * SimulationTime));
-
-	
-	
-	//return (CollisionDetection * SimulationTime + !CollisionDetection * ClosestDistance) / SimulationTime;
-
-	//return (CollisionDetection * (100 - SimulationTime) + !CollisionDetection * (1 / ClosestDistance * SimulationTime));
 }
 
 void GraphicalRun::HandleUserInput() {

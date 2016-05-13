@@ -21,7 +21,7 @@ public:
 
 	}
 
-	virtual void controlls() = 0;
+	virtual void controls() = 0;
 	virtual void reset() = 0;
 
 	sf::Vector2f getPosition();

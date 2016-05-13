@@ -5,19 +5,35 @@
 #include "Utilities.h"
 #include "Params.h"
 
-void RocketHC::controlls() {
+void RocketHC::controls() {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		//throttle
-		accelerate(0.9f);
+		accelerate(0.01f);
 	}
-
+	else accelerate(-0.006f);
+	//else throttle = 0.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		angular_accelerate(-0.9f);
+		if (angular_throttle > 0)
+			angular_accelerate(-0.03f);
+		else
+			angular_accelerate(-0.01f);
+		
+		
+		//angular_accelerate(-0.01f);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		angular_accelerate(0.9f);
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		if (angular_throttle < 0)
+			angular_accelerate(0.03f);
+		else
+			angular_accelerate(0.01f);
 	}
+	else {
+		angular_accelerate((-1 * angular_throttle) / 30);
+		//angular_throttle = 0;
+	}
+		
+
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		accelerate(-0.33f);
 	}

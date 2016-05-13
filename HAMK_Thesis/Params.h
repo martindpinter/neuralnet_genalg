@@ -23,6 +23,7 @@ public:
 	static float RotationalEnginePower;
 
 	static float ConstAirResistance;
+	static float Friction;
 
 	static float NNC_Deadzone;
 

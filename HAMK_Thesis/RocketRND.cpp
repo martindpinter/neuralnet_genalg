@@ -4,7 +4,7 @@
 #include "Params.h"
 #include <random>
 
-void RocketRND::controlls() {
+void RocketRND::controls() {
 	bool flipflop = false;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad5)) {
 		// start random sequence

@@ -28,7 +28,7 @@ void Sandbox::Run() {
 			PhysicsTimeStepAccumulator -= Params::PhysicsTimeStep;
 		}
 
-		Window.clear(sf::Color::Magenta);
+		Window.clear(sf::Color::Black);
 		UserRocket.draw(Window);
 		Window.display();
 	}
