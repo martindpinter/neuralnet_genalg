@@ -6,6 +6,8 @@ public:
 
 	static float pi;
 
+	const static sf::Vector2f nullvec;
+
 	static int WindowWidth;
 	static int WindowHeight;
 	static int Framerate;
@@ -32,16 +34,11 @@ public:
 	static sf::Vector2f posRocketOPP;
 	static sf::Vector2f posRocketHC;
 
-
-	static sf::Vector2f velRocketNN;
-	static sf::Vector2f velRocketOPP;
-	static sf::Vector2f velRocketHC;
-
+	static sf::Vector2f posTarget;
 
 	static float angleRocketNN;
 	static float angleRocketOPP;
 	static float angleRocketHC;
-
 
 	/*
 	//Rocket visuals

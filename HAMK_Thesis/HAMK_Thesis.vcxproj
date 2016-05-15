@@ -125,9 +125,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="Interceptor.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Population.cpp" />
     <ClCompile Include="NeuralNet.cpp" />
     <ClCompile Include="Params.cpp" />
+    <ClCompile Include="Bandit.cpp" />
     <ClCompile Include="RocketHUD.cpp" />
     <ClCompile Include="GraphicalRun.cpp" />
     <ClCompile Include="main.cpp" />
@@ -138,13 +141,17 @@
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="PerformanceRun.cpp" />
     <ClCompile Include="Sandbox.cpp" />
+    <ClCompile Include="Target.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI.h" />
+    <ClInclude Include="Interceptor.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Population.h" />
     <ClInclude Include="NeuralNet.h" />
     <ClInclude Include="Params.h" />
+    <ClInclude Include="Bandit.h" />
     <ClInclude Include="RocketHC.h" />
     <ClInclude Include="RocketHUD.h" />
     <ClInclude Include="RocketNN.h" />
@@ -154,6 +161,7 @@
     <ClInclude Include="Manager.h" />
     <ClInclude Include="PerformanceRun.h" />
     <ClInclude Include="Sandbox.h" />
+    <ClInclude Include="Target.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -19,13 +19,13 @@ sGenome Population::BuildRandomGenome() {
 void Population::BuildRandomPopulation() {
 
 	for (int i = 0; i < Params::PopulationSize; ++i) {
-		ThePopulation.push_back(BuildRandomGenome());
+		Genomes.push_back(BuildRandomGenome());
 	}
 }
 
 void Population::SortPopulation() {
 
-	std::sort(ThePopulation.begin(), ThePopulation.end(), [](const sGenome& lhs, const sGenome& rhs) {
+	std::sort(Genomes.begin(), Genomes.end(), [](const sGenome& lhs, const sGenome& rhs) {
 		return lhs.fitness > rhs.fitness;
 	}		// [] ... "lambda fgv", beagyazott fgv, impliciten bool-t ad vissza
 	);
@@ -33,12 +33,12 @@ void Population::SortPopulation() {
 
 float Population::CalculateAverageFitness() {
 	
-	if (Params::PopulationSize == ThePopulation.size()) {
+	if (Params::PopulationSize == Genomes.size()) {
 
 		float sum = 0.0f;
 
 		for (int i = 0; i < Params::PopulationSize; ++i) {
-			sum += ThePopulation[i].fitness;
+			sum += Genomes[i].fitness;
 		}
 
 		return sum / Params::PopulationSize;
@@ -58,7 +58,7 @@ void Population::Evolve() {
 
 	std::vector<sGenome> NewPopulation;
 
-	while (NewPopulation.size() != ThePopulation.size()) {
+	while (NewPopulation.size() != Genomes.size()) {
 		std::vector<sGenome> Parents;
 		Parents.push_back(Roulette());
 		Parents.push_back(Roulette());
@@ -72,7 +72,7 @@ void Population::Evolve() {
 		NewPopulation.push_back(SpecimensMutated[0]);
 		NewPopulation.push_back(SpecimensMutated[1]);
 	}
-	ThePopulation = NewPopulation;
+	Genomes = NewPopulation;
 
 }
 
@@ -131,18 +131,18 @@ sGenome Population::Roulette() {
 	float FitnessSoFar = 0.0f;
 
 	for (int i = 0; i < Params::PopulationSize; ++i) {
-		Sum += ThePopulation[i].fitness;
+		Sum += Genomes[i].fitness;
 	}
 
 	double Slice = (double)(randfloat() * Sum); 
 
 	for (int i = 0; i < Params::PopulationSize; ++i) {	// redundant?
-		FitnessSoFar += ThePopulation[i].fitness;
+		FitnessSoFar += Genomes[i].fitness;
 
 		if (FitnessSoFar >= Slice)
-			return ThePopulation[i];
+			return Genomes[i];
 	}
-	return ThePopulation.back();
+	return Genomes.back();
 
 }
 

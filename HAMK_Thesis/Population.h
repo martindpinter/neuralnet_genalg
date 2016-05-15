@@ -33,9 +33,9 @@ private:
 public:
 
 	Population() { BuildRandomPopulation(); }
-	Population(std::vector<sGenome> inputVector) { ThePopulation = inputVector;	}
+	Population(std::vector<sGenome> inputVector) { Genomes = inputVector;	}
 
-	std::vector<sGenome> ThePopulation;
+	std::vector<sGenome> Genomes;
 	float AverageFitness;
 
 	void BuildRandomPopulation();

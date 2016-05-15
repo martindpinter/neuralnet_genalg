@@ -1,31 +1,45 @@
 #pragma once
 #include <iostream>
-
-#include "RocketController.h"
 #include "NeuralNet.h"
-#include "Population.h"
-#include "RocketNN.h"
-#include "Params.h"
+#include "Interceptor.h"
+#include "Bandit.h"
+#include "Target.h"
 
+//#include "Object.h"
+
+//#include "RocketController.h"
+
+//#include "Population.h"
+//#include "RocketNN.h"
+//#include "Params.h"
+
+
+
+//
 
 
 class Manager {
 public:
 	Manager() {
 		
-		TheNet = NeuralNet();
-		
-		CurrentPopulation = Population();
-		
-		Interceptor = RocketNN(Params::posRocketNN, Params::velRocketNN, Params::angleRocketNN);
+		I1 = Interceptor(Params::posRocketNN, Params::angleRocketNN);
+		POP1 = Population();
+		NN1 = NeuralNet();
 
-		Bandit = RocketRND(Params::posRocketOPP, Params::velRocketOPP, Params::angleRocketOPP);
+		//CurrentPopulation = Population();
+		
+		B1 = Bandit(Params::posRocketOPP, Params::angleRocketOPP);
+		POP2 = Population();
+		NN2 = NeuralNet();
 
-		Interceptor.DefineTarget(&Bandit);
+		City = Target();
+
+		I1.DefineTarget(&B1);
+		B1.DefineTarget(&City); // BE KELL VEZETNI OBJECT CLASS-t, NINCS MESE :(
 	}
 	
 	
-	virtual float Simulate() = 0;
+	virtual bool Simulate() = 0;
 	
 
 	void Run();
@@ -33,18 +47,26 @@ public:
 	void Load(std::istream& in, sGenome& genome);
 	void SaveAll();
 	void LoadAll();
-
-	float CalculateDistance();
 	
-	bool OutOfBounds();	// might be redundant from RocketController
+	//bool isOOB();	// might be redundant from RocketController
 	
-	RocketNN Interceptor;
-	RocketRND Bandit;
+	//NeuralNet TheNet;
 
-	NeuralNet TheNet;
+	Interceptor I1;
+	Population POP1;
+	NeuralNet NN1;
+
+	Bandit B1;
+	Population POP2;
+	NeuralNet NN2;
+
+	Target City;
+	
 	Population CurrentPopulation;
 
 	int iGeneration;	// index of Generation
 	int iGenome;		// index of Genome
+
+	float SimuTimeInSec = 0.0f; // fps dependant
 
 };

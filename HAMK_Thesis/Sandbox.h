@@ -7,7 +7,7 @@
 class Sandbox {
 public:
 	Sandbox() : Window(sf::VideoMode(Params::WindowWidth, Params::WindowHeight), "Sandbox Mode", sf::Style::None) {
-		UserRocket = RocketHC(Params::posRocketHC, Params::velRocketHC, Params::angleRocketHC);
+		UserRocket = RocketHC(Params::posRocketHC, Params::angleRocketHC);
 	
 	}
 

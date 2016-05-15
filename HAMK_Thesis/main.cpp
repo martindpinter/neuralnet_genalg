@@ -23,8 +23,9 @@ int main() {
 
 	if (menuChoice == '1') {
 		PerformanceRun GM;
-		//GM.LoadAll();
+						//GM.LoadAll(); REMOVE?
 		GM.Run();
+		//std::cout << "Function under development." << std::endl;
 	}
 	else if (menuChoice == '2') {
 		GraphicalRun GM;
