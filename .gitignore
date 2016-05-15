@@ -7,5 +7,7 @@
 *.obj
 *.exe
 Debug/
+Release/
 HAMK_Thesis/Debug/
+HAMK_Thesis/Release/
 Thumbs.db
