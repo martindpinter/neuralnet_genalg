@@ -1,0 +1,6 @@
+ThePopulation got renamed to Genomes.
+
+@@::Messages::ErrorMessages classes!!
+
+TODO: Rotational air resistance
+TODO: Give real controls for Bandit
