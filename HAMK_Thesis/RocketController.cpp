@@ -2,43 +2,6 @@
 #include "Params.h"
 #include <iostream>	// don't forget to remove
 
-//redundant
-sf::Vector2f RocketController::getPosition() {
-	return position;
-}
-
-bool RocketController::OutOfBounds() {
-	if (position.x > Params::WindowWidth || position.y > Params::WindowHeight || position.x < 0 || position.y < 0)
-		return true;
-	else
-		return false;
-}
-
-
-//Celraketa iranya az elfogohoz kepest(Left 0.0 ...[Centre-> 0.5 <-Centre] ... 1.0 Right)
-float RocketController::LookAt(RocketController* EnemyRocket) {
-
-	float Egocent_x = EnemyRocket->position.x - position.x;
-	float Egocent_y = EnemyRocket->position.y - position.y;
-	
-	float Angle_reltoX = atan2(Egocent_y, Egocent_x);
-	float Difference = 2 * Params::pi - angle - Angle_reltoX;
-
-	float normDifference = normalize(Difference, -1 * Params::pi, 1 * Params::pi);
-
-	return normDifference;
-
-}
-
-bool RocketController::collision(RocketController * otherRocket) {
-
-	float dx = position.x - otherRocket->position.x;
-	float dy = position.y - otherRocket->position.y;
-	float distance = sqrt(dx * dx + dy * dy);
-
-	return distance < (20 + 20);
-}
-
 void RocketController::draw(sf::RenderWindow& window) {
 
 	sf::Texture* rocketTexture;
@@ -83,9 +46,6 @@ void RocketController::update() {
 	sf::Vector2f acceleration(cos(angle), sin(angle));
 	acceleration *= throttle * Params::EnginePower;	//ha a throttle 0, 0vektorra zsugorul
 
-	//acceleration = CalcAirResistance(acceleration);
-
-
 	velocity += acceleration;
 	velocity *= Params::Friction;
 	position += velocity;
@@ -99,29 +59,12 @@ void RocketController::accelerate(float amount) {
 }
 
 void RocketController::angular_accelerate(float alpha_amount) {
+	
+	if (angular_throttle > 0 && alpha_amount < 0) { alpha_amount *= 3; }
+	if (angular_throttle < 0 && alpha_amount > 0) { alpha_amount *= 3; }
+
 	angular_throttle += alpha_amount;
 	angular_throttle = clamp(angular_throttle, -1.0, 1.0);
-}
-
-sf::Vector2f RocketController::CalcAirResistance(sf::Vector2f acceleration)
-{
-	acceleration.x -= Params::ConstAirResistance * velocity.x * velocity.x;	// air resistance
-	acceleration.y -= Params::ConstAirResistance * velocity.y * velocity.y;
-
-	return acceleration;
-}
-
-float RocketController::calcLookAtScore(signed * LookAtScore, RocketController * EnemyRocket) {
-	
-	float LookAtEnemy = LookAt(EnemyRocket);
-
-	if (LookAtEnemy > 0.48 && LookAtEnemy < 0.52)
-		LookAtScore++;
-	else
-		LookAtScore--;
-
-
-	return 0.0f;
 }
 
 void RocketController::CheckForSpin() {

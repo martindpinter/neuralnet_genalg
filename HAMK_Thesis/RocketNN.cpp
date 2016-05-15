@@ -3,105 +3,118 @@
 #include <SFML/Graphics.hpp>
 #include "RocketRND.h"
 
+void RocketNN::update() {
+	RocketController::update();
+	
+	calcDistance();
+	calcLookAtScore();
+	CheckForSpin();
+	CollisionDetection();
+}
+
 void RocketNN::controls() {
 
-	if (NNControls[0] > 0.4) {
-		//accelerate(NNControls[0]);
-		//accelerate(NNControls[0] * 0.01);	// gradual acceleration
+	if (NNControls[0] > 0.4)
 		accelerate(0.01f);
-	}
 	else
 		accelerate(-0.006f);
 
-	if (NNControls[1] < 0.5 - Params::NNC_Deadzone) {
-		//angular_accelerate(-0.5 - Params::NNC_Deadzone - NNControls[1]);
-		if (angular_throttle > 0)
-			angular_accelerate(-0.03f);
-		else
-			angular_accelerate(-0.01f);
-	}
-	else if (NNControls[1] > 0.5 + Params::NNC_Deadzone) {
-		//angular_accelerate(NNControls[1]);
-		if (angular_throttle < 0)
-			angular_accelerate(0.03f);
-		else
-			angular_accelerate(0.01f);
-	}
+	if (NNControls[1] < 0.5 - Params::NNC_Deadzone)
+		angular_accelerate(-0.01f);
+	else if (NNControls[1] > 0.5 + Params::NNC_Deadzone)
+		angular_accelerate(0.01f);
 	else
 		angular_accelerate((-1 * angular_throttle) / 30);
-}
-
-void RocketNN::reset() {
-	position = Params::posRocketNN;
-	velocity = Params::velRocketNN;
-	angle = Params::angleRocketNN;
-	throttle = 0.0f;
-	angular_throttle = 0.0f;
-	angular_velocity = 0.0f;
-	rotationalSum = 0.0f;
 }
 
 void RocketNN::SetNNControls(NeuralNet *NN) {
 	NNControls = NN->evaluate(getNNinputs());
 }
 
-void RocketNN::DefineTarget(RocketController  *EnemyRocket) {
+void RocketNN::DefineTarget(Object * EnemyRocket) {
 	LockOnTarget = EnemyRocket;
 }
 
-void RocketNN::Set_vecPopulation(std::vector<float> returnvector) {
+void RocketNN::calcDistance() {
 
-	vecPopulation = returnvector;
+	ClosestDistanceToTarget = (sqrt(pow((LockOnTarget->position.x - position.x), 2) + pow((LockOnTarget->position.y - position.y), 2)));
 }
 
-std::vector<float> RocketNN::getNNinputs() {
+void RocketNN::CollisionDetection() {
 
-	std::vector<float> returnvector;
+	float dx = position.x - LockOnTarget->position.x;
+	float dy = position.y - LockOnTarget->position.y;
+	float distance = sqrt(dx * dx + dy * dy);
 
+	Collided = distance < (20 + 20);
+}
 
+//Celraketa iranya az elfogohoz kepest(Left 0.0 ...[Centre-> 0.5 <-Centre] ... 1.0 Right)
+float RocketNN::normalizedLookAt() {
+	
 	float Egocent_x = LockOnTarget->position.x - position.x;
-
 	float Egocent_y = LockOnTarget->position.y - position.y;
 
-	float EgocentV_x = LockOnTarget->velocity.x - velocity.x;
+	float Angle_reltoX = atan2(Egocent_y, Egocent_x);
+	float Difference = 2 * Params::pi - angle - Angle_reltoX;
 
-	float EgocentV_y = LockOnTarget->velocity.y - velocity.y;
+	float normDifference = normalize(Difference, -1 * Params::pi, 1 * Params::pi);
 
+	return normDifference;
 
-	// INPUT 0 :: Sebessegvektor hossza
-	
-	float VelocityVectorLength = sqrt(pow(velocity.x, 2) + pow(velocity.y, 2));
-	
-	float normVelocityVectorLength = normalize(VelocityVectorLength, 0, 20);		// 20 is only a guess based on measurements
-	
-	returnvector.push_back(normVelocityVectorLength);
+}
 
+float RocketNN::calcLookAtScore() {
 
-	// INPUT 1 :: Facevector es sebessegvector iranyanak kulonbsege
-	
-	float VeloVec_xAxisDegree = atan2(velocity.y, velocity.x);
-	
-	float VelocityFaceOffset = angle - VeloVec_xAxisDegree;		// SWAPPED
+	float LookAtEnemy = normalizedLookAt();
 
-	returnvector.push_back(normalize(VelocityFaceOffset, 0, 2 * Params::pi));	// check again
+	if (LookAtEnemy > 0.48 && LookAtEnemy < 0.52)
+		LookAtScore++;
+	else
+		LookAtScore--;
 
+	return 0.0f;
+}
 
-	// INPUT 2 :: Celraketa sebessegvektoranak x-tengellyel bezart szoge radianban
-	
-	float EnemyVelocity_xAxisDegree = atan2(EgocentV_y, EgocentV_x);
-	
-	float normEVxAD = normalize(EnemyVelocity_xAxisDegree, 0, 2 * Params::pi);		 
+float RocketNN::calcFitness(float SimulationTime) {
 
-	if (normEVxAD < 0) {		// CSUNYAVAGYNAGYON :(((((((
-		normEVxAD += 1;
+	if (Collided) {
+		float returnvalue = Sigmoid(Params::MaxSimulationTime - SimulationTime, 5.0) + 1; //+ (LookAtScore * 0.001);
+
+		if (SpinAlert)
+			return returnvalue;
+		else
+			return  2 * returnvalue;
+	}
+	else {
+		float returnvalue = Sigmoid(Params::MaxSimulationTime / (ClosestDistanceToTarget * SimulationTime)); // +(LookAtScore * 0.001);
+
+		if (SpinAlert)
+			return returnvalue / 2;
+		else
+			return returnvalue;
 	}
 
-	returnvector.push_back(normEVxAD);
-	
-
-	// INPUT 3 :: Celraketa iranya az elfogohoz kepest (Left 0.0 ... [Centre-> 0.5 <-Centre] ... 1.0 Right)
-
-	returnvector.push_back(LookAt(LockOnTarget));
-
-	return returnvector;
 }
+
+//float RocketNN::calcFitness(float SimulationTime) {
+//
+//	if (Collided) {
+//
+//		float returnvalue = Sigmoid(Params::MaxSimulationTime - SimulationTime, 5.0) + 1 + (LookAtScore * 0.001);
+//
+//		if (SpinAlert)
+//			return returnvalue;
+//		else
+//			return returnvalue + 0.5f;
+//	}
+//	else {
+//		float returnvalue = Sigmoid(Params::MaxSimulationTime / (ClosestDistanceToTarget * SimulationTime)) + (LookAtScore * 0.001);
+//
+//		if (SpinAlert)
+//			return returnvalue - 0.5;
+//		else
+//			return returnvalue;
+//	}
+//
+//}

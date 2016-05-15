@@ -1,71 +1,18 @@
-﻿Build started 13/05/2016 12:36:03.
+﻿Build started 14/05/2016 23:13:01.
      1>Project "C:\Users\pinte\Documents\Visual Studio 2015\Projects\HAMK_Thesis\HAMK_Thesis\HAMK_Thesis.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"C:\Users\pinte\Documents\Prog\libraries\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt GraphicalRun.cpp Manager.cpp NeuralNet.cpp Params.cpp PerformanceRun.cpp RocketController.cpp RocketHC.cpp RocketHUD.cpp RocketNN.cpp RocketRND.cpp Sandbox.cpp main.cpp
-         RocketRND.cpp
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\utilities.h(34): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-         RocketNN.cpp
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\utilities.h(34): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-         RocketHC.cpp
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\utilities.h(34): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-         RocketController.cpp
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\utilities.h(34): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-         Params.cpp
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\params.cpp(3): warning C4305: 'initializing': truncation from 'double' to 'float'
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\params.cpp(22): warning C4305: 'initializing': truncation from 'double' to 'float'
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\params.cpp(23): warning C4305: 'initializing': truncation from 'double' to 'float'
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\params.cpp(25): warning C4305: 'initializing': truncation from 'double' to 'float'
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\params.cpp(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\params.cpp(32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\params.cpp(33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\params.cpp(41): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\params.cpp(43): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\params.cpp(54): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\params.cpp(59): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-         Generating Code...
-         Compiling...
-         main.cpp
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\utilities.h(34): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\main.cpp(13): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-         Sandbox.cpp
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\utilities.h(34): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\sandbox.cpp(70): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\sandbox.cpp(73): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-         RocketHUD.cpp
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\utilities.h(34): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-         PerformanceRun.cpp
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\utilities.h(34): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\performancerun.cpp(9): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\performancerun.cpp(43): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\performancerun.cpp(46): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-         NeuralNet.cpp
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\utilities.h(34): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\neuralnet.cpp(23): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\neuralnet.cpp(25): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\neuralnet.cpp(27): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\neuralnet.cpp(42): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\neuralnet.cpp(43): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\neuralnet.cpp(44): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\neuralnet.cpp(86): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\neuralnet.cpp(90): warning C4018: '<': signed/unsigned mismatch
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\neuralnet.cpp(111): warning C4018: '<': signed/unsigned mismatch
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"C:\Users\pinte\Documents\Prog\libraries\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Manager.cpp
          Manager.cpp
      1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\utilities.h(34): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-         GraphicalRun.cpp
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\utilities.h(34): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\graphicalrun.cpp(11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\graphicalrun.cpp(65): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\graphicalrun.cpp(68): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\graphicalrun.cpp(71): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\graphicalrun.cpp(73): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\graphicalrun.cpp(104): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\graphicalrun.cpp(108): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-         Generating Code...
+     1>c:\users\pinte\documents\visual studio 2015\projects\hamk_thesis\hamk_thesis\rocketnn.h(24): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\pinte\Documents\Visual Studio 2015\Projects\HAMK_Thesis\Debug\HAMK_Thesis.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\pinte\Documents\Prog\libraries\SFML-2.3.2\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\pinte\Documents\Visual Studio 2015\Projects\HAMK_Thesis\Debug\HAMK_Thesis.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\pinte\Documents\Visual Studio 2015\Projects\HAMK_Thesis\Debug\HAMK_Thesis.lib" /MACHINE:X86 Debug\GUI.obj
+         Debug\Interceptor.obj
+         Debug\Object.obj
          Debug\Population.obj
          Debug\NeuralNet.obj
          Debug\Params.obj
+         Debug\Bandit.obj
          Debug\RocketHUD.obj
          Debug\GraphicalRun.obj
          Debug\main.obj
@@ -76,10 +23,11 @@
          Debug\Manager.obj
          Debug\PerformanceRun.obj
          Debug\Sandbox.obj
+         Debug\Target.obj
          Debug\Utilities.obj
          HAMK_Thesis.vcxproj -> C:\Users\pinte\Documents\Visual Studio 2015\Projects\HAMK_Thesis\Debug\HAMK_Thesis.exe
      1>Done Building Project "C:\Users\pinte\Documents\Visual Studio 2015\Projects\HAMK_Thesis\HAMK_Thesis\HAMK_Thesis.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:17.60
+Time Elapsed 00:00:02.57

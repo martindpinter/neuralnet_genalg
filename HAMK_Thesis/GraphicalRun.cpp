@@ -1,78 +1,71 @@
 #include "GraphicalRun.h"
 #include "GUI.h"
 #include "Utilities.h"
+#include "Target.h"
 
-float GraphicalRun::Simulate() {
+bool GraphicalRun::Simulate() {
 
 	sf::Clock Clock;
-	sf::Clock SimulationClock;
-		
-	bool CollisionDetection = false;
-	float ClosestDistance = sqrt(pow(Params::WindowHeight, 2) + pow(Params::WindowWidth, 2));
-	
-	signed LookAtScore = 0;
+	//sf::Clock SimulationClock;
 
-	
+	SimuTimeInSec = 0.0f;
 
 	float PhysicsTimeStepAccumulator = 0.0f;
 
-	while (Window.isOpen() && !CollisionDetection && !OutOfBounds()) {
+	NN1.feedWeights(POP1.Genomes[iGenome].value);
+	NN2.feedWeights(POP2.Genomes[iGenome].value);
+
+	while (Window.isOpen()) {
+
+
+		if (I1.Collided || B1.Collided)
+			break;
+
+		if (I1.isOOB() && B1.isOOB())
+			break;
+
+		if (SimuTimeInSec >= Params::MaxSimulationTime)
+			break;
 
 		const sf::Time FrameTime = Clock.restart();
 		float FrameSeconds = FrameTime.asSeconds();
-		fps = 1 / FrameSeconds;	// pl. 60 -szor lesz meg benne
-
 		if (FrameSeconds > 0.1f) FrameSeconds = 0.1f;
-
 		PhysicsTimeStepAccumulator += FrameSeconds;
 
 		HandleUserInput();
 
-		while (PhysicsTimeStepAccumulator >= Params::PhysicsTimeStep) {	// PhysicsTimeStep = 1/60	// szive lelke
+		while (PhysicsTimeStepAccumulator >= SpeedFactor * Params::PhysicsTimeStep) {
 
-			Interceptor.SetNNControls(&TheNet);
+			I1.SetNNControls(&NN1);
+			I1.update();
 
-			Interceptor.update();
-			Bandit.update();
+			B1.SetNNControls(&NN2);
+			B1.update();
 
-			Interceptor.calcLookAtScore(&LookAtScore, &Bandit);
-
-			Interceptor.CheckForSpin();
-
-
-			CollisionDetection = Interceptor.collision(&Bandit);	//RocketController.cpp
-
-			PhysicsTimeStepAccumulator -= Params::PhysicsTimeStep;
+			PhysicsTimeStepAccumulator -= SpeedFactor * Params::PhysicsTimeStep;
+			SimuTimeInSec += SpeedFactor * Params::PhysicsTimeStep;
 		}
 
 
 		Window.clear(sf::Color::Black);
 
-		//draw here//
-		Interceptor.draw(Window);
-		Bandit.draw(Window);
-		GUI (Window, iGeneration, iGenome);
 
+		I1.draw(Window);
+		B1.draw(Window);
+		City.draw(Window);
+
+		GUI(Window, iGeneration, iGenome);
+		std::cout << SimuTimeInSec << std::endl;
 		Window.display();
-		
 	}
-
-	float SimulationTime = SimulationClock.restart().asSeconds();
-	
-	//std::cout << std::endl << LookAtScore << std::endl;
-
-	if (CollisionDetection) {
-		float returnvalue = Sigmoid(Params::MaxSimulationTime - SimulationTime, 5.0) + 1 + (LookAtScore * 0.001);
-		
-		if (Interceptor.SpinAlert) return returnvalue;
-		else return returnvalue + 0.5;
+	if (!abort) {
+		POP1.Genomes[iGenome].fitness = I1.calcFitness(SimuTimeInSec);
+		POP2.Genomes[iGenome].fitness = B1.calcFitness(SimuTimeInSec);
 	}
-	else {
-		float returnvalue = Sigmoid(Params::MaxSimulationTime / (ClosestDistance * SimulationTime)) + (LookAtScore * 0.001);
+	abort = false;
 
-		if (Interceptor.SpinAlert) return returnvalue - 0.5;
-		else return returnvalue;
-	}
+	return !Window.isOpen();
+
 }
 
 void GraphicalRun::HandleUserInput() {
@@ -95,17 +88,17 @@ void GraphicalRun::HandleUserInput() {
 				SaveAll();
 				break;
 			case sf::Keyboard::L:
-				Interceptor.reset();
-				Bandit.reset();
+				I1.reset();
+				B1.reset();
 				LoadAll();
+				abort = true;
 				break;
 			case sf::Keyboard::Add:
-				if (Params::PhysicsTimeStep >= 0.003)
-					Params::PhysicsTimeStep -= (0.1 / Params::PhysicsTimeStepsPerSecond);
+				SpeedFactor *= 1.1f;
 				std::cout << Params::PhysicsTimeStep << std::endl;
 				break;
 			case sf::Keyboard::Subtract:
-				Params::PhysicsTimeStep += (0.1 / Params::PhysicsTimeStepsPerSecond);
+				SpeedFactor /= 1.1f;
 				std::cout << Params::PhysicsTimeStep << std::endl;
 				break;
 			case sf::Keyboard::Escape:

@@ -1,15 +1,15 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Object.h"
 #include "Utilities.h"
 #include "RocketHUD.h"
 #include <string>
 
 
-class RocketController {
+class RocketController : public Object {
 public: 
 	RocketController() {}
-	RocketController(sf::Vector2f position, sf::Vector2f velocity, float angle, std::string ntTexture, std::string ftTexture) :
-		position(position), velocity(velocity), angle(angle), noThrottleString(ntTexture), fullThrottleString(ftTexture) {
+	RocketController(sf::Vector2f position, float angle, std::string ntTexture, std::string ftTexture) : Object(position, Params::nullvec, angle), noThrottleString(ntTexture), fullThrottleString(ftTexture) {
 	
 		noThrottle.loadFromFile(noThrottleString);
 		noThrottle.setSmooth(true);
@@ -20,38 +20,27 @@ public:
 		fullThrottle.setRepeated(false);
 
 	}
+	virtual void update() override;
+	virtual void draw(sf::RenderWindow& window) override;
 
 	virtual void controls() = 0;
-	virtual void reset() = 0;
+	virtual void CollisionDetection() = 0;
 
-	sf::Vector2f getPosition();
-	sf::Vector2f position;	// consider having protected
-	sf::Vector2f velocity;	// ...this one too...
-
-	void draw(sf::RenderWindow& window);
-	void update();
+	float throttle = 0.0f;
 	void accelerate(float amount);
-	void angular_accelerate(float amount);
-	sf::Vector2f CalcAirResistance(sf::Vector2f);
 
-	float calcLookAtScore(signed * LookAtScore, RocketController * EnemyRocket);
-	void CheckForSpin();
+	float angular_throttle = 0.0f;
+	void angular_accelerate(float amount);
+	float angular_velocity = 0.0f;
 	
+	void CheckForSpin();
 	bool SpinAlert = false;
-	bool collision(RocketController *);
-	bool OutOfBounds();
-	float LookAt(RocketController *);
 
 	std::vector<float> NNInputs;
 
-	float angle = 0.0f;
 	float prevAngle = angle;
 	float rotationalSum = 0.0f;	// for anti spin
 
-	float angular_velocity = 0.0f;
-	float throttle = 0.0f;
-	float angular_throttle = 0.0f;
-	
 protected:
 	
 	sf::Color color;

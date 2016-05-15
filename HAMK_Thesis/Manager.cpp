@@ -2,23 +2,28 @@
 #include "Manager.h"
 #include "Params.h"
 #include <fstream>
+#include <iomanip>
 
 void Manager::Run() {
-	for (iGeneration = 1; iGeneration < Params::MaxGenerations; ++iGeneration) {
+	bool isEnded = false;
 
-		for (iGenome = 0; iGenome < Params::PopulationSize; ++iGenome) {
+	for (iGeneration = 1; iGeneration < Params::MaxGenerations && !isEnded; ++iGeneration) {
 
-			Interceptor.reset();
-			Bandit.reset();
+		for (iGenome = 0; iGenome < Params::PopulationSize && !isEnded; ++iGenome) {
 
-			TheNet.feedWeights(CurrentPopulation.ThePopulation[iGenome].value);
+			// if window is closed bool breakeljen ki --> break;
 
-			CurrentPopulation.ThePopulation[iGenome].fitness = Simulate();
+			I1.reset();
+			B1.reset();
+
+			isEnded = Simulate();
 			
-			std::cout << iGeneration << " / " << Params:: MaxGenerations << " :: " << iGenome << " / " << Params::PopulationSize << "   @ " << CurrentPopulation.ThePopulation[iGenome].fitness << std::endl;
+			std::cout << std::fixed << std::setprecision(6) << iGeneration << " / " << Params:: MaxGenerations << " :: " << iGenome << " / " << Params::PopulationSize << "   @ " << POP1.Genomes[iGenome].fitness << "                ";
+			std::cout << " @ " << POP2.Genomes[iGenome].fitness << std::endl;
 
 		}
-		CurrentPopulation.Evolve();
+		POP1.Evolve();
+		POP2.Evolve();
 		
 		SaveAll();
 		std::cout << std::endl << "Saved successfully" << std::endl;
@@ -33,11 +38,18 @@ void Manager::SaveAll() {
 
 	out << iGenome << std::endl;
 
-	out << CurrentPopulation.ThePopulation.size() << std::endl;
+	out << POP1.Genomes.size() << std::endl;
 	
-	for (const sGenome& genome : CurrentPopulation.ThePopulation) {
+	for (const sGenome& genome : POP1.Genomes) {
 		Save(out, genome);
 	}
+
+	out << POP2.Genomes.size() << std::endl;
+
+	for (const sGenome& genome : POP2.Genomes) {
+		Save(out, genome);
+	}
+
 }
 
 void Manager::Save(std::ostream& out, const sGenome& genome) {
@@ -66,11 +78,27 @@ void Manager::LoadAll() {
 	in >> PopulationSize;
 	newPopulation.resize(PopulationSize);
 
+	int genomeCounter = 0;
+	for (sGenome& genome : newPopulation) {
+		if (genomeCounter < PopulationSize) {
+			Load(in, genome);
+			genomeCounter++;
+		}
+	}
+
+	POP1.Genomes = newPopulation;
+
+	newPopulation.clear();
+
+	PopulationSize = 0;
+	in >> PopulationSize;
+	newPopulation.resize(PopulationSize);
+
 	for (sGenome& genome : newPopulation) {
 		Load(in, genome);
 	}
 
-	CurrentPopulation.ThePopulation = newPopulation;
+	POP2.Genomes = newPopulation;
 }
 
 void Manager::Load(std::istream& in, sGenome& genome) {
@@ -86,21 +114,4 @@ void Manager::Load(std::istream& in, sGenome& genome) {
 		in >> value;
 	}
 
-}
-
-float Manager::CalculateDistance() {
-	
-	return (sqrt(pow((Bandit.position.x - Interceptor.position.x), 2) + pow((Bandit.position.y - Interceptor.position.y), 2)));
-}
-
-bool Manager::OutOfBounds() {
-	
-	if (Interceptor.OutOfBounds()) {		
-		return true;
-	}
-
-	if (Bandit.OutOfBounds()) {
-		return true;
-	}
-	return false;
 }
