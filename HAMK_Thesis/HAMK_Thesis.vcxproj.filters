@@ -48,9 +48,6 @@
     <ClCompile Include="RocketNN.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RocketRND.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,9 +102,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RocketNN.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RocketRND.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GUI.h">

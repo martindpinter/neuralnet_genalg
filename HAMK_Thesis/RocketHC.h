@@ -6,10 +6,8 @@
 class RocketHC : public RocketController {
 public:
 	RocketHC() {}
-	RocketHC(sf::Vector2f position, float angle) : RocketController (position, angle, "../images/resized_by5/rocket.png", "../images/resized_by5/rocket_throttle.png") {}
+	RocketHC(sf::Vector2f position, float angle) : RocketController (position, angle, Params::BlueNTT, Params::BlueFTT) {}
 	
 	virtual void controls() override;
-	virtual void CollisionDetection() override;
-	virtual void reset() override;
 
 };

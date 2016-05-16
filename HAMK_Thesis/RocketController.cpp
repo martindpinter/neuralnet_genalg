@@ -19,6 +19,8 @@ void RocketController::draw(sf::RenderWindow& window) {
 	rocketSprite.setRotation((angle + Params::pi / 2) * (180.0f / Params::pi));
 	rocketSprite.setOrigin(19, 27);
 
+	rocketSprite.setScale(Params::scaleRocket, Params::scaleRocket);
+
 	window.draw(rocketSprite);
 	RocketHUD HUD(window, *this);
 }
@@ -51,7 +53,17 @@ void RocketController::update() {
 	position += velocity;
 }
 
+void RocketController::TargetHit() {
 
+		Collided = getBoundingBox().intersects(LockOnTarget->getBoundingBox());
+
+
+	/*float dx = position.x - LockOnTarget->position.x;
+	float dy = position.y - LockOnTarget->position.y;
+	float distance = sqrt(dx * dx + dy * dy);
+
+	Collided = distance < (20 + 20);*/
+}
 void RocketController::accelerate(float amount) {
 
 	throttle += amount;
@@ -65,6 +77,10 @@ void RocketController::angular_accelerate(float alpha_amount) {
 
 	angular_throttle += alpha_amount;
 	angular_throttle = clamp(angular_throttle, -1.0, 1.0);
+}
+
+void RocketController::DefineTarget(Object * EnemyRocket) {
+	LockOnTarget = EnemyRocket;
 }
 
 void RocketController::CheckForSpin() {

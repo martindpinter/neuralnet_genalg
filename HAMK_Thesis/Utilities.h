@@ -2,17 +2,15 @@
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
 
-float Sigmoid(float activation);	// default response is 1.0f
-float Sigmoid(float activation, float response);
+float Sigmoid(float activation, float response = 1.0f);	// default response is 1.0f
 
 float clamp(float x, float min, float max);
 float rad2deg(float);
 float deg2rad(float);
 float normalize(float x, float min, float max);
+float wrapRange(float x, float min, float max);
 float CalculateDistance2(sf::Vector2f a, sf::Vector2f b);
 std::vector<std::string> explode(std::string const & FullString, char Separator);
-
-
 
 struct SPoint {
 	float x, y;

@@ -5,7 +5,8 @@
 void Sandbox::Run() {
 	sf::Clock Clock;
 
-	bool CollisionDetection = false;
+	//bool CollisionDetection = false;
+	//bool TargetHit = false;
 	
 	float PhysicsTimeStepAccumulator = 0.0f;
 
@@ -22,8 +23,6 @@ void Sandbox::Run() {
 		while (PhysicsTimeStepAccumulator >= Params::PhysicsTimeStep) {
 			UserRocket.update();
 			UserRocket.CheckForSpin();
-
-			//CollisionDetection = UserRocket.collision(&Dummy);
 
 			PhysicsTimeStepAccumulator -= Params::PhysicsTimeStep;
 		}
@@ -63,7 +62,7 @@ void Sandbox::HandleUserInput() {
 
 				break;
 			case sf::Keyboard::R:
-				UserRocket.reset();
+				//UserRocket.reset();
 				break;
 			case sf::Keyboard::Add:
 				if (Params::PhysicsTimeStep >= 0.003)

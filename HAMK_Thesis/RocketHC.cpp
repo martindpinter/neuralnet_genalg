@@ -38,17 +38,3 @@ void RocketHC::controls() {
 		accelerate(-0.33f);
 	}
 }
-
-void RocketHC::CollisionDetection() {
-	Collided = false;
-}
-
-void RocketHC::reset() {
-	position = Params::posRocketHC;
-	velocity = Params::nullvec;
-	angle = Params::angleRocketHC;
-	throttle = 0.0f;
-	angular_throttle = 0.0f;
-	angular_velocity = 0.0f;
-	rotationalSum = 0.0f;
-}

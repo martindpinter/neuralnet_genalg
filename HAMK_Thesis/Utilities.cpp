@@ -26,6 +26,14 @@ float normalize(float x, float min, float max) {
 	return ((x - min) / (max - min));
 }
 
+float wrapRange(float x, float min, float max) {
+	const double width = max - min;   // 
+	const double offsetValue = x - min;   // value relative to 0
+
+	return (offsetValue - (floor(offsetValue / width) * width)) + min;
+	// + start to reset back to start of original range
+}
+
 float CalculateDistance2(sf::Vector2f a, sf::Vector2f b) {
 	return (sqrt(pow((b.x - a.x), 2) + pow((b.y - a.y), 2)));
 }
@@ -43,12 +51,10 @@ std::vector<std::string> explode(std::string const & FullString, char Separator)
 	return result;
 }
 
-float Sigmoid(float activation) {
-
-	float response = 1.0f;
-	return (1 / (1 + exp(-activation / response)));
-}
-
 float Sigmoid(float activation, float response) {
-	return (1 / (1 + exp(-activation / response)));
+
+	activation *= response;
+
+	float fastSigmoid = (activation / (1 + abs(activation)));
+	return (fastSigmoid + 1) / 2;
 }

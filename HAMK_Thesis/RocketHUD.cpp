@@ -43,7 +43,7 @@ void RocketHUD::draw(sf::RenderWindow& Window, RocketController& Rocket) {
 	HUDString += "\nThrottle = ";
 	HUDString += std::to_string(Rocket.throttle);
 
-	HUDString += "\nVelocity = ";
+	HUDString += "\nvelocity = ";
 	HUDString += std::to_string(sqrt(pow(Rocket.velocity.x, 2) + pow(Rocket.velocity.y, 2)));
 
 	/*HUDString += "\n";
@@ -51,7 +51,7 @@ void RocketHUD::draw(sf::RenderWindow& Window, RocketController& Rocket) {
 	HUDString += "\nAngularThrottle = ";
 	HUDString += std::to_string(Rocket.angular_throttle);
 
-	HUDString += "\nAngularVelocity = ";
+	HUDString += "\nAngularvelocity = ";
 	HUDString += std::to_string(Rocket.angular_velocity);
 
 	HUDString += "\n";

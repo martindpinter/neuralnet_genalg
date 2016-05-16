@@ -29,16 +29,32 @@ public:
 
 	static float NNC_Deadzone;
 
+	static std::string BackgroundTexture;
 
+	static std::string BlueNTT;
+	static std::string BlueFTT;
+	static std::string RedNTT;
+	static std::string RedFTT;
+
+	static std::string TargetT;
+
+	
 	static sf::Vector2f posRocketNN;
 	static sf::Vector2f posRocketOPP;
 	static sf::Vector2f posRocketHC;
+	static sf::Vector2f posRocketDMM;
+
+	static float scaleRocket;
+	static float scaleTarget;
 
 	static sf::Vector2f posTarget;
+	static float radTarget;
 
 	static float angleRocketNN;
 	static float angleRocketOPP;
 	static float angleRocketHC;
+	static float angleRocketDMM;
+	static float angleTarget;
 
 	/*
 	//Rocket visuals

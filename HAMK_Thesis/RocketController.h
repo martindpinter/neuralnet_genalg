@@ -9,7 +9,7 @@
 class RocketController : public Object {
 public: 
 	RocketController() {}
-	RocketController(sf::Vector2f position, float angle, std::string ntTexture, std::string ftTexture) : Object(position, Params::nullvec, angle), noThrottleString(ntTexture), fullThrottleString(ftTexture) {
+	RocketController(sf::Vector2f position, float angle, std::string ntTexture, std::string ftTexture) : Object(position, Params::nullvec, angle, sf::Vector2f(45, 45), Params::scaleRocket), noThrottleString(ntTexture), fullThrottleString(ftTexture) {
 	
 		noThrottle.loadFromFile(noThrottleString);
 		noThrottle.setSmooth(true);
@@ -24,10 +24,14 @@ public:
 	virtual void draw(sf::RenderWindow& window) override;
 
 	virtual void controls() = 0;
-	virtual void CollisionDetection() = 0;
+	
+	virtual void TargetHit();
 
 	float throttle = 0.0f;
 	void accelerate(float amount);
+
+	void DefineTarget(Object * EnemyRocket);
+	Object * LockOnTarget;
 
 	float angular_throttle = 0.0f;
 	void angular_accelerate(float amount);

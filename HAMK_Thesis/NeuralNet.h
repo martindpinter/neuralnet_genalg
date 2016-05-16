@@ -2,8 +2,7 @@
 #include <vector>
 #include "Utilities.h"
 #include "Params.h"
-#include "Population.h"	//korbeinclude veszely?
-#include "RocketRND.h"
+#include "Population.h"
 
  
 

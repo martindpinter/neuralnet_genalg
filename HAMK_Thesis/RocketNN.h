@@ -8,31 +8,23 @@ class RocketNN : public RocketController {
 public:
 	RocketNN() {}
 
-	RocketNN(sf::Vector2f position, float angle) : RocketController(position, angle, "../images/resized_by5/BlueRocket.png", "../images/resized_by5/BlueRocket_throttle.png") {}  // do I need to pass position from layer to layer?
-
+	RocketNN(sf::Vector2f position, float angle) : RocketController(position, angle, Params::BlueNTT, Params::BlueFTT) {}
 	
 
-	virtual void CollisionDetection() override;
 	virtual void controls() override;
 	virtual void update() override;
 
 	virtual std::vector<float> getNNinputs() = 0;
-
-	void DefineTarget(Object * EnemyRocket);
 
 	void calcDistance();
 	float ClosestDistanceToTarget = sqrt(pow(Params::WindowHeight, 2) + pow(Params::WindowWidth, 2));
 	
 	float calcLookAtScore();
 	float LookAtScore = 0;
-	float normalizedLookAt();
-
-	
+	float normalizedLookAt();	
 
 
 	float calcFitness(float SimulationTime);
-
-	Object * LockOnTarget;
 	
 	std::vector<float> vecPopulation;
 	

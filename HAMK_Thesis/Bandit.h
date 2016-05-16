@@ -1,14 +1,14 @@
 #pragma once
-#include "RocketNN.h"
+#include "RocketController.h"
 
-class Bandit : public RocketNN {
+class Bandit : public RocketController {
 public:
 
 	Bandit() {}
-	Bandit(sf::Vector2f position, float angle) : RocketNN(position, angle) {}
+	Bandit(sf::Vector2f position, float angle) : RocketController(position, angle, Params::RedNTT, Params::RedFTT) {}
 
-	virtual std::vector<float> getNNinputs() override;
+	void reset(int seed);
+	virtual void controls() override;
 
-	virtual void reset() override;
-
+	virtual void update() override;
 };

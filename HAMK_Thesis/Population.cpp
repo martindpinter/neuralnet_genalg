@@ -50,13 +50,34 @@ float Population::CalculateAverageFitness() {
 	
 }
 
-void Population::Evolve() {
+float Population::getBestFitness() {
 
-	AverageFitness = CalculateAverageFitness();
+	return std::max_element(Genomes.begin(), Genomes.end(), [](const sGenome& lhs, const sGenome& rhs) {
+		return lhs.fitness < rhs.fitness;
+	}
+	) ->fitness;
+	
+}
+
+std::vector<sGenome> Population::pickBests(int topN, int copies) {
+
+	std::vector<sGenome> returnvector;
+
+	for (unsigned i = 0; i < topN; ++i) {
+		for (unsigned j = 0; j < copies; ++j) {
+			returnvector.push_back(Genomes[i]);
+		}
+	}
+	return returnvector;
+}
+
+void Population::Evolve() {
 
 	SortPopulation();
 
-	std::vector<sGenome> NewPopulation;
+	std::vector<sGenome> NewPopulation = pickBests(4, 1); 
+
+
 
 	while (NewPopulation.size() != Genomes.size()) {
 		std::vector<sGenome> Parents;
@@ -98,7 +119,7 @@ std::vector<sGenome> Population::Crossover2(std::vector<sGenome> Parents) {	//mi
 }
 
 std::vector<sGenome> Population::Mutate2(std::vector<sGenome> Specimens) {	//miert nem 2 kulon parameter?
-	float MutationRate = 0.001;
+	float MutationRate = 0.005;
 
 	bool ChangesDone = false;
 

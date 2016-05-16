@@ -137,7 +137,6 @@
     <ClCompile Include="RocketController.cpp" />
     <ClCompile Include="RocketHC.cpp" />
     <ClCompile Include="RocketNN.cpp" />
-    <ClCompile Include="RocketRND.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="PerformanceRun.cpp" />
     <ClCompile Include="Sandbox.cpp" />
@@ -156,7 +155,6 @@
     <ClInclude Include="RocketHUD.h" />
     <ClInclude Include="RocketNN.h" />
     <ClInclude Include="RocketController.h" />
-    <ClInclude Include="RocketRND.h" />
     <ClInclude Include="GraphicalRun.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="PerformanceRun.h" />

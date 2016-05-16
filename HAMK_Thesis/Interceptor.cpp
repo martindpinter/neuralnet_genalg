@@ -1,6 +1,7 @@
 #include "Interceptor.h"
 
 void Interceptor::reset() {
+
 	position = Params::posRocketNN;
 	velocity = Params::nullvec;
 	angle = Params::angleRocketNN;
@@ -26,31 +27,27 @@ std::vector<float> Interceptor::getNNinputs() {
 
 	// INPUT 0 :: Sebessegvektor hossza
 
-	float VelocityVectorLength = sqrt(pow(velocity.x, 2) + pow(velocity.y, 2));
+	float velocityVectorLength = sqrt(pow(velocity.x, 2) + pow(velocity.y, 2));
 
-	float normVelocityVectorLength = normalize(VelocityVectorLength, 0, 20); // 20 is based on measurements
+	float normvelocityVectorLength = clamp(normalize(velocityVectorLength, 0, 20), 0, 1); // 20 is based on measurements
 
-	returnvector.push_back(normVelocityVectorLength);
+	returnvector.push_back(normvelocityVectorLength);
 
 
 	// INPUT 1 :: Facevector es sebessegvector iranyanak kulonbsege
 
 	float VeloVec_xAxisDegree = atan2(velocity.y, velocity.x);
 
-	float VelocityFaceOffset = angle - VeloVec_xAxisDegree;		// SWAPPED
+	float velocityFaceOffset = angle - VeloVec_xAxisDegree;		// SWAPPED
 
-	returnvector.push_back(normalize(VelocityFaceOffset, 0, 2 * Params::pi));	// check again
+	returnvector.push_back(normalize(wrapRange(velocityFaceOffset, 0, 2 * Params::pi), 0, 2 * Params::pi));	// check again
 
 
 	// INPUT 2 :: Celraketa sebessegvektoranak x-tengellyel bezart szoge radianban
 
-	float EnemyVelocity_xAxisDegree = atan2(EgocentV_y, EgocentV_x);
-
-	float normEVxAD = normalize(EnemyVelocity_xAxisDegree, 0, 2 * Params::pi);
-
-	if (normEVxAD < 0) {		// CSUNYAVAGYNAGYON :(((((((
-		normEVxAD += 1;
-	}
+	float Enemyvelocity_xAxisDegree = atan2(EgocentV_y, EgocentV_x);
+	float relEVxAD = angle - Enemyvelocity_xAxisDegree;
+	float normEVxAD = normalize(wrapRange(relEVxAD, 0, 2 * Params::pi), 0, 2 * Params::pi);
 
 	returnvector.push_back(normEVxAD);
 
@@ -58,6 +55,11 @@ std::vector<float> Interceptor::getNNinputs() {
 	// INPUT 3 :: Celraketa iranya az elfogohoz kepest (Left 0.0 ... [Centre-> 0.5 <-Centre] ... 1.0 Right)
 
 	returnvector.push_back(normalizedLookAt());
+
+	// ++INPUT 4 :: Interceptor - Bandit tavolsag
+
+	returnvector.push_back(sqrt(pow(Egocent_x, 2) + pow(Egocent_y, 2)));
+
 
 	return returnvector;
 }

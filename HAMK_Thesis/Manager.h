@@ -26,16 +26,12 @@ public:
 		POP1 = Population();
 		NN1 = NeuralNet();
 
-		//CurrentPopulation = Population();
-		
 		B1 = Bandit(Params::posRocketOPP, Params::angleRocketOPP);
-		POP2 = Population();
-		NN2 = NeuralNet();
 
-		City = Target();
+		TargetB1 = Target();
 
 		I1.DefineTarget(&B1);
-		B1.DefineTarget(&City); // BE KELL VEZETNI OBJECT CLASS-t, NINCS MESE :(
+		B1.DefineTarget(&TargetB1);
 	}
 	
 	
@@ -47,26 +43,22 @@ public:
 	void Load(std::istream& in, sGenome& genome);
 	void SaveAll();
 	void LoadAll();
-	
-	//bool isOOB();	// might be redundant from RocketController
-	
-	//NeuralNet TheNet;
+	void SaveBestGenome();
+	sGenome LoadBestGenome();
+
+	void ManageTopGenomes(int topN);
+	std::vector<sGenome> LoadTopGenomes();
 
 	Interceptor I1;
 	Population POP1;
 	NeuralNet NN1;
 
 	Bandit B1;
-	Population POP2;
-	NeuralNet NN2;
 
-	Target City;
-	
-	Population CurrentPopulation;
+	Target TargetB1;
 
-	int iGeneration;	// index of Generation
-	int iGenome;		// index of Genome
-
+	int iGeneration = 1;
+	int iGenome;
 	float SimuTimeInSec = 0.0f; // fps dependant
 
 };

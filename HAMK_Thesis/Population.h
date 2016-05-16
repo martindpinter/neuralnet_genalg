@@ -4,17 +4,19 @@
 #include "Params.h"
 #include <iostream>
 
-struct sGenome {	// egy raketat a-z -ig vezerlo ertekek sora
+struct sGenome {
 	
 	std::vector<float> value;
 	float fitness;
 
-	sGenome() { for (int i = 0; i < Params::WeightCount; ++i) { value.push_back(0.0f);	} }	//empty genomes shall be filled with values of 0.0f
+	sGenome() { for (int i = 0; i < Params::WeightCount; ++i) { value.push_back(0.0f);	} }
 
 	sGenome(std::vector<float> inputvector) : value(inputvector) {}
 
-	//https://github.com/r0mai/car-game/blob/master/src/GenetiPopulation.hpp
-	//https://github.com/r0mai/car-game/blob/master/src/GenetiPopulation.cpp
+	sf::Vector2f initposI1;
+	sf::Vector2f initposB1;
+	sf::Vector2f initposTargetB1;
+
 };
 
 
@@ -28,7 +30,8 @@ private:
 	void SortPopulation();
 	std::vector<sGenome> Crossover2(std::vector<sGenome>);
 	std::vector<sGenome> Mutate2(std::vector<sGenome>);
-	float CalculateAverageFitness();
+	std::vector<sGenome> pickBests(int topN, int copies);
+
 
 public:
 
@@ -41,5 +44,8 @@ public:
 	void BuildRandomPopulation();
 
 	void Evolve();
+
+	float CalculateAverageFitness();
+	float getBestFitness();
 
 };

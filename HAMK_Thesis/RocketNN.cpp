@@ -1,7 +1,6 @@
 #include "RocketNN.h"
 #include "Utilities.h"
 #include <SFML/Graphics.hpp>
-#include "RocketRND.h"
 
 void RocketNN::update() {
 	RocketController::update();
@@ -9,7 +8,7 @@ void RocketNN::update() {
 	calcDistance();
 	calcLookAtScore();
 	CheckForSpin();
-	CollisionDetection();
+	TargetHit();
 }
 
 void RocketNN::controls() {
@@ -31,22 +30,11 @@ void RocketNN::SetNNControls(NeuralNet *NN) {
 	NNControls = NN->evaluate(getNNinputs());
 }
 
-void RocketNN::DefineTarget(Object * EnemyRocket) {
-	LockOnTarget = EnemyRocket;
-}
+
 
 void RocketNN::calcDistance() {
 
 	ClosestDistanceToTarget = (sqrt(pow((LockOnTarget->position.x - position.x), 2) + pow((LockOnTarget->position.y - position.y), 2)));
-}
-
-void RocketNN::CollisionDetection() {
-
-	float dx = position.x - LockOnTarget->position.x;
-	float dy = position.y - LockOnTarget->position.y;
-	float distance = sqrt(dx * dx + dy * dy);
-
-	Collided = distance < (20 + 20);
 }
 
 //Celraketa iranya az elfogohoz kepest(Left 0.0 ...[Centre-> 0.5 <-Centre] ... 1.0 Right)
@@ -58,9 +46,9 @@ float RocketNN::normalizedLookAt() {
 	float Angle_reltoX = atan2(Egocent_y, Egocent_x);
 	float Difference = 2 * Params::pi - angle - Angle_reltoX;
 
-	float normDifference = normalize(Difference, -1 * Params::pi, 1 * Params::pi);
+	float wrappedDifference = wrapRange(Difference, -Params::pi, Params::pi);
 
-	return normDifference;
+	return normalize(wrappedDifference, -Params::pi, Params::pi);
 
 }
 
@@ -77,44 +65,16 @@ float RocketNN::calcLookAtScore() {
 }
 
 float RocketNN::calcFitness(float SimulationTime) {
+	
 
 	if (Collided) {
-		float returnvalue = Sigmoid(Params::MaxSimulationTime - SimulationTime, 5.0) + 1; //+ (LookAtScore * 0.001);
+		//return Sigmoid(Params::MaxSimulationTime - SimulationTime, 0.3) + 1;
+		return normalize(Params::MaxSimulationTime - SimulationTime, 0, Params::MaxSimulationTime) + 1;
 
-		if (SpinAlert)
-			return returnvalue;
-		else
-			return  2 * returnvalue;
 	}
 	else {
-		float returnvalue = Sigmoid(Params::MaxSimulationTime / (ClosestDistanceToTarget * SimulationTime)); // +(LookAtScore * 0.001);
-
-		if (SpinAlert)
-			return returnvalue / 2;
-		else
-			return returnvalue;
+		//return Sigmoid(1400 - ClosestDistanceToTarget, 0.01);
+		return normalize(1400 - ClosestDistanceToTarget, 0, 1400);
 	}
 
 }
-
-//float RocketNN::calcFitness(float SimulationTime) {
-//
-//	if (Collided) {
-//
-//		float returnvalue = Sigmoid(Params::MaxSimulationTime - SimulationTime, 5.0) + 1 + (LookAtScore * 0.001);
-//
-//		if (SpinAlert)
-//			return returnvalue;
-//		else
-//			return returnvalue + 0.5f;
-//	}
-//	else {
-//		float returnvalue = Sigmoid(Params::MaxSimulationTime / (ClosestDistanceToTarget * SimulationTime)) + (LookAtScore * 0.001);
-//
-//		if (SpinAlert)
-//			return returnvalue - 0.5;
-//		else
-//			return returnvalue;
-//	}
-//
-//}
