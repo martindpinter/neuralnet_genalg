@@ -23,7 +23,15 @@ void Manager::Run() {
 			POP1.Genomes[iGenome].initposI1 = I1.position;
 			POP1.Genomes[iGenome].initposB1 = B1.position;
 
-			isEnded = Simulate();
+			float SimuAngle;
+
+			for (float i = 0; i < Params::FitnessResolution; ++i) {
+				SimuAngle = i / (Params::FitnessResolution / 2) * Params::pi;
+				isEnded = Simulate(SimuAngle);
+				I1.reset(SimuAngle);
+				B1.reset(iGeneration);
+			}
+			
 
 			ManageTopGenomes(10);
 		}

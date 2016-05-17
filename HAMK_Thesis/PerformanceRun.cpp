@@ -1,6 +1,8 @@
 #include "PerformanceRun.h"
 
-bool PerformanceRun::Simulate() {
+bool PerformanceRun::Simulate(float angle) {
+
+	I1.angle = angle;
 
 	int NrOfUpdates = 0;
 
@@ -24,7 +26,11 @@ bool PerformanceRun::Simulate() {
 	}
 
 	float SimulationTime = NrOfUpdates / Params::PhysicsTimeStepsPerSecond;	// in seconds
-	POP1.Genomes[iGenome].fitness = I1.calcFitness(SimulationTime);
+	
+	if (POP1.Genomes[iGenome].fitness == 0)
+		POP1.Genomes[iGenome].fitness = I1.calcFitness(SimuTimeInSec);
+	else
+		POP1.Genomes[iGenome].fitness += I1.calcFitness(SimuTimeInSec);
 
 	return false;
 }

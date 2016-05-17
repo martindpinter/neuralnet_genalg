@@ -9,7 +9,7 @@ public:
 	virtual std::vector<float> getNNinputs() override;
 
 	void reset();
-
+	void reset(float angle);
 	// how to implement fitness calculation method difference here as virtual override?
 	// think about it later!
 };

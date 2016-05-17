@@ -75,6 +75,8 @@ public:
 	static int WeightCount;
 	static int PopulationSize;
 
+	static float FitnessResolution;
+
 	static std::string SaveLocation;
 	
 };

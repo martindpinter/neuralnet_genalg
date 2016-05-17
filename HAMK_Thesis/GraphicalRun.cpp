@@ -124,7 +124,9 @@ void GraphicalRun::ReplayBestGenome() {
 	}
 }
 
-bool GraphicalRun::Simulate() {
+bool GraphicalRun::Simulate(float angle) {
+
+	I1.angle = angle;
 
 	sf::Clock Clock;
 	//sf::Clock SimulationClock;
@@ -176,7 +178,10 @@ bool GraphicalRun::Simulate() {
 		Window.display();
 	}
 	if (!abort) {
-		POP1.Genomes[iGenome].fitness = I1.calcFitness(SimuTimeInSec);
+		if (POP1.Genomes[iGenome].fitness == 0)
+			POP1.Genomes[iGenome].fitness = I1.calcFitness(SimuTimeInSec);
+		else
+			POP1.Genomes[iGenome].fitness += I1.calcFitness(SimuTimeInSec);
 	}
 	abort = false;
 

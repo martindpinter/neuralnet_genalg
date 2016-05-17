@@ -33,21 +33,15 @@ void Population::SortPopulation() {
 
 float Population::CalculateAverageFitness() {
 	
-	if (Params::PopulationSize == Genomes.size()) {
 
-		float sum = 0.0f;
+	float sum = 0.0f;
 
-		for (int i = 0; i < Params::PopulationSize; ++i) {
-			sum += Genomes[i].fitness;
-		}
-
-		return sum / Params::PopulationSize;
+	for (int i = 0; i < Params::PopulationSize; ++i) {
+		sum += Genomes[i].fitness;
 	}
-	else {
-		std::cout << "ERROR: The population's size doesn't match the one given in Params." << std::endl;
-		return -1.0f;
-	}
-	
+
+	return sum / Params::PopulationSize;
+
 }
 
 float Population::getBestFitness() {
@@ -65,6 +59,7 @@ std::vector<sGenome> Population::pickBests(int topN, int copies) {
 
 	for (unsigned i = 0; i < topN; ++i) {
 		for (unsigned j = 0; j < copies; ++j) {
+			//Genomes[i].fitness = 0;
 			returnvector.push_back(Genomes[i]);
 		}
 	}
@@ -90,10 +85,18 @@ void Population::Evolve() {
 		std::vector<sGenome> ParentsCrossedOver = Crossover2(Parents);
 		std::vector<sGenome> SpecimensMutated = Mutate2(ParentsCrossedOver);
 
+		//SpecimensMutated[0].fitness = 0;
+		//SpecimensMutated[1].fitness = 0;
+
+
 		NewPopulation.push_back(SpecimensMutated[0]);
 		NewPopulation.push_back(SpecimensMutated[1]);
 	}
 	Genomes = NewPopulation;
+
+	for (sGenome& genome : Genomes) {	// reset fitness scores to 0
+		genome.fitness = 0;
+	}
 
 }
 

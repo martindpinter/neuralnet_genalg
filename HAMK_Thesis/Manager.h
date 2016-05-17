@@ -35,7 +35,7 @@ public:
 	}
 	
 	
-	virtual bool Simulate() = 0;
+	virtual bool Simulate(float angle) = 0;
 	
 
 	void Run();

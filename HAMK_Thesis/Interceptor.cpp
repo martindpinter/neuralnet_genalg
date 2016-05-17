@@ -4,13 +4,21 @@ void Interceptor::reset() {
 
 	position = Params::posRocketNN;
 	velocity = Params::nullvec;
-	angle = Params::angleRocketNN;
+	//angle = Params::angleRocketNN;
+	int angleConst = randfloat(1.0, 2.5);
+	angle = angleConst * Params::pi;
 	throttle = 0.0f;
 	angular_throttle = 0.0f;
 	angular_velocity = 0.0f;
 	rotationalSum = 0.0f;
 	Collided = false;
 	LookAtScore = 0;
+
+}
+void Interceptor::reset(float inputangle) {
+
+	Interceptor::reset();
+	angle = inputangle;
 }
 
 std::vector<float> Interceptor::getNNinputs() {

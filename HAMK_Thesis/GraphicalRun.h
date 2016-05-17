@@ -20,7 +20,7 @@ public:
 
 	sf::RenderWindow Window;
 
-	virtual bool Simulate() override;
+	virtual bool Simulate(float angle) override;
 
 	void ReplayBestGenome();
 	void TopGenomes();

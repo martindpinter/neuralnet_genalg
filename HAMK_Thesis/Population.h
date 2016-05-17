@@ -7,9 +7,9 @@
 struct sGenome {
 	
 	std::vector<float> value;
-	float fitness;
+	float fitness = 0;
 
-	sGenome() { for (int i = 0; i < Params::WeightCount; ++i) { value.push_back(0.0f);	} }
+	sGenome() : fitness(0) { for (int i = 0; i < Params::WeightCount; ++i) { value.push_back(0.0f);	} }
 
 	sGenome(std::vector<float> inputvector) : value(inputvector) {}
 

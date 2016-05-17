@@ -15,10 +15,11 @@ int main() {
 	std::cout << "MENU" << std::endl;
 	std::cout << "1. Start New Performance Teaching" << std::endl;
 	std::cout << "2. Continue Performance Teaching" << std::endl;
-	std::cout << "3. Graphical Simulation" << std::endl;
-	std::cout << "4. Sandbox Mode" << std::endl;
-	std::cout << "5. Replay Best Genome" << std::endl;
-	std::cout << "6. Top Genomes" << std::endl;
+	std::cout << "3. Start New Graphical Simulation" << std::endl;
+	std::cout << "4. Continue Graphical Simulation" << std::endl;
+	std::cout << "5. Sandbox Mode" << std::endl;
+	std::cout << "6. Replay Best Genome" << std::endl;
+	std::cout << "7. Top Genomes" << std::endl;
 	std::cout << "X. Quit Program" << std::endl;
 	
 
@@ -41,20 +42,25 @@ int main() {
 		}
 		else if (menuChoice == '3') {
 			GraphicalRun GM;
-			GM.LoadAll();
+			//GM.LoadAll();
 			GM.Run();
 		}
 		else if (menuChoice == '4') {
-			Sandbox GM;
+			GraphicalRun GM;
+			GM.LoadAll();
 			GM.Run();
 		}
 		else if (menuChoice == '5') {
+			Sandbox GM;
+			GM.Run();
+		}
+		else if (menuChoice == '6') {
 			GraphicalRun GM;
 			GM.ReplayBestGenome();
 			//char endchar;
 			//std::cin >> endchar;
 		}
-		else if (menuChoice == '6') {
+		else if (menuChoice == '7') {
 			GraphicalRun GM;
 			GM.TopGenomes();
 		}

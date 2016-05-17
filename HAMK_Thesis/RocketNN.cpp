@@ -69,7 +69,7 @@ float RocketNN::calcFitness(float SimulationTime) {
 
 	if (Collided) {
 		//return Sigmoid(Params::MaxSimulationTime - SimulationTime, 0.3) + 1;
-		return normalize(Params::MaxSimulationTime - SimulationTime, 0, Params::MaxSimulationTime) + 1;
+		return normalize(Params::MaxSimulationTime - SimulationTime, 0, Params::MaxSimulationTime) + 2;
 
 	}
 	else {

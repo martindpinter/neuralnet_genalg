@@ -5,6 +5,6 @@ class PerformanceRun : public Manager {
 public:
 	PerformanceRun() {}
 
-	virtual bool Simulate() override;
+	virtual bool Simulate(float angle) override;
 
 };
